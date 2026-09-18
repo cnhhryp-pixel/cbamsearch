@@ -1,0 +1,1 @@
+export default function ToolLinks(){return <aside className="toolLinks"><b>Continue your CBAM check</b><a href="/cn-code/">CN Code Search →</a><a href="/cbam-checker/">Scope Checker →</a><a href="/default-values/">Default Values →</a><a href="/cbam-certificate-price/">Certificate Price →</a><a href="/cbam-calculator/">Cost Calculator →</a></aside>}
