@@ -1,7 +1,7 @@
 // Seed dataset for the CBAMSearch MVP.
 // Scope references: Regulation (EU) 2023/956 Annex I. Production data will be versioned against current consolidated EU law.
 export const cbamCodes=[
-{code:'2507008080',display:'2507 00 80 80',name:'Calcined kaolinic clay',sector:'Cement',gas:'CO₂',level:'TARIC',keywords:['calcined clay','kaolin','kaolinic clay']},
+{code:'25070080',display:'2507 00 80',name:'Other kaolinic clays',sector:'Cement',gas:'CO₂',level:'CN',keywords:['kaolinic clay','kaolin clay','other kaolinic clays']},
 {code:'25231000',display:'2523 10 00',name:'Cement clinkers',sector:'Cement',gas:'CO₂',level:'CN',keywords:['cement clinker','clinker']},
 {code:'25232100',display:'2523 21 00',name:'White Portland cement',sector:'Cement',gas:'CO₂',level:'CN',keywords:['white cement','portland cement']},
 {code:'25232900',display:'2523 29 00',name:'Other Portland cement',sector:'Cement',gas:'CO₂',level:'CN',keywords:['cement','portland cement']},
@@ -123,7 +123,7 @@ export function searchCbam(q) {
 }
 
 export const CBAM_SCOPE_SOURCE = {
-  title: 'Regulation (EU) 2023/956 — Annex I',
+  title: 'Regulation (EU) 2023/956 — Annex I (consolidated)',
   url: 'https://eur-lex.europa.eu/eli/reg/2023/956/2025-10-20/eng',
   checked: '2026-09-19'
 };
