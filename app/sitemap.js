@@ -1,0 +1,1 @@
+export default function sitemap(){const paths=['','/cbam-checker/','/cbam-calculator/','/cn-code/','/products/','/deadlines/','/guides/','/about/'];return paths.map(p=>({url:'https://cbamsearch.com'+p,lastModified:new Date(),changeFrequency:p===''?'daily':'weekly',priority:p===''?1:.8}))}
