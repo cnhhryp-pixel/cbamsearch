@@ -121,3 +121,34 @@ export function searchCbam(q) {
     .slice(0, 30)
     .map(result => result.item);
 }
+
+export const CBAM_SCOPE_SOURCE = {
+  title: 'Regulation (EU) 2023/956 — Annex I',
+  url: 'https://eur-lex.europa.eu/eli/reg/2023/956/2025-10-20/eng',
+  checked: '2026-09-19'
+};
+
+export function getScopeMatch(code) {
+  const n = normalizeCode(code);
+  if (!n) return { status: 'unknown', record: null, exclusion: null };
+
+  const parents = cbamCodes
+    .filter(item => n === item.code || n.startsWith(item.code))
+    .sort((a,b) => b.code.length - a.code.length);
+
+  for (const record of parents) {
+    const exclusion = (record.excludedCodes || []).find(prefix => n.startsWith(prefix));
+    if (exclusion) return { status: 'excluded', record, exclusion };
+  }
+
+  if (parents.length) {
+    const record = parents[0];
+    const exact = n === record.code;
+    const broad = ['Chapter','Heading','Subheading'].includes(record.level) && !exact;
+    return { status: broad ? 'potential' : 'covered', record, exclusion: null };
+  }
+
+  const children = cbamCodes.filter(item => item.code.startsWith(n));
+  if (children.length) return { status: 'needs-detail', record: children[0], exclusion: null };
+  return { status: 'unknown', record: null, exclusion: null };
+}
