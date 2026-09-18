@@ -31,5 +31,21 @@ export const cbamCodes=[
 {code:'7614',display:'7614',name:'Stranded wire, cables and the like, of aluminium',sector:'Aluminium',gas:'CO₂, PFCs',level:'Heading',keywords:['aluminium cable','aluminum cable']},
 {code:'7616',display:'7616',name:'Other articles of aluminium',sector:'Aluminium',gas:'CO₂, PFCs',level:'Heading',keywords:['aluminium article','aluminum article']}
 ];
+
+cbamCodes.push(
+{code:'26011200',display:'2601 12 00',name:'Agglomerated iron ores and concentrates, other than roasted iron pyrites',sector:'Iron & steel',gas:'CO₂',level:'CN',keywords:['iron ore','agglomerated iron ore']},
+{code:'730300',display:'7303 00',name:'Tubes, pipes and hollow profiles, of cast iron',sector:'Iron & steel',gas:'CO₂',level:'Subheading',keywords:['cast iron pipe','cast iron tube']},
+{code:'7304',display:'7304',name:'Seamless tubes, pipes and hollow profiles, of iron or steel',sector:'Iron & steel',gas:'CO₂',level:'Heading',keywords:['seamless steel pipe','seamless tube']},
+{code:'7305',display:'7305',name:'Other iron or steel tubes and pipes, circular cross-section, external diameter over 406.4 mm',sector:'Iron & steel',gas:'CO₂',level:'Heading',keywords:['large steel pipe','welded steel pipe']},
+{code:'7306',display:'7306',name:'Other tubes, pipes and hollow profiles, of iron or steel',sector:'Iron & steel',gas:'CO₂',level:'Heading',keywords:['steel tube','steel pipe','hollow profile']},
+{code:'7307',display:'7307',name:'Tube or pipe fittings, of iron or steel',sector:'Iron & steel',gas:'CO₂',level:'Heading',keywords:['pipe fittings','steel fittings','elbow','coupling']},
+{code:'7308',display:'7308',name:'Structures and parts of structures, of iron or steel',sector:'Iron & steel',gas:'CO₂',level:'Heading',keywords:['steel structure','steel construction']},
+{code:'730900',display:'7309 00',name:'Iron or steel reservoirs, tanks, vats and similar containers over 300 litres',sector:'Iron & steel',gas:'CO₂',level:'Subheading',keywords:['steel tank','steel reservoir']},
+{code:'7310',display:'7310',name:'Iron or steel tanks, casks, drums, cans, boxes and similar containers up to 300 litres',sector:'Iron & steel',gas:'CO₂',level:'Heading',keywords:['steel drum','steel can','steel container']},
+{code:'731100',display:'7311 00',name:'Containers for compressed or liquefied gas, of iron or steel',sector:'Iron & steel',gas:'CO₂',level:'Subheading',keywords:['gas cylinder','steel gas container']},
+{code:'7318',display:'7318',name:'Screws, bolts, nuts, rivets, washers and similar articles, of iron or steel',sector:'Iron & steel',gas:'CO₂',level:'Heading',keywords:['screws','bolts','nuts','washers','fasteners']},
+{code:'7326',display:'7326',name:'Other articles of iron or steel',sector:'Iron & steel',gas:'CO₂',level:'Heading',keywords:['iron articles','steel articles']}
+);
+
 export const normalizeCode=v=>(v||'').replace(/\D/g,'');
 export function searchCbam(q){const raw=(q||'').trim().toLowerCase(), n=normalizeCode(raw);if(!raw)return [];return cbamCodes.filter(x=>(n&& (x.code.startsWith(n)||n.startsWith(x.code)))||x.name.toLowerCase().includes(raw)||x.sector.toLowerCase().includes(raw)||x.keywords.some(k=>k.includes(raw))).slice(0,30)}
