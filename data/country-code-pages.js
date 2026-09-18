@@ -1,0 +1,2 @@
+import{countryProductPages}from'./country-product-pages';import{cbamCodes}from'./cbam-codes';
+export const countryCodePages=countryProductPages.flatMap(p=>cbamCodes.filter(c=>c.sector===p.sectorName&&p.examples.some(e=>c.code.startsWith(e.replace(/\D/g,''))||e.replace(/\D/g,'').startsWith(c.code))).map(c=>({country:p.country,countryName:p.countryName,sector:p.sector,sectorName:p.sectorName,code:c.code})));
