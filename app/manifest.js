@@ -1,0 +1,1 @@
+export default function manifest(){return{name:'CBAM Search',short_name:'CBAMSearch',description:'EU CBAM CN code search, scope checker and calculator.',start_url:'/',display:'standalone',background_color:'#ffffff',theme_color:'#0b1324',icons:[{src:'/icon.svg',sizes:'any',type:'image/svg+xml'}]}}
