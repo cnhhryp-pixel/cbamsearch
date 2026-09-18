@@ -49,13 +49,7 @@ cbamCodes.push(
 
 
 cbamCodes.push(
-  {code:'25070080',display:'2507 00 80',name:'Other kaolinic clays',sector:'Cement',gas:'CO₂',level:'CN',keywords:['kaolinic clay','calcined clay','kaolin clay']},
-  {code:'25232100',display:'2523 21 00',name:'White Portland cement, whether or not artificially coloured',sector:'Cement',gas:'CO₂',level:'CN',keywords:['white portland cement','white cement']},
-  {code:'25232900',display:'2523 29 00',name:'Other Portland cement',sector:'Cement',gas:'CO₂',level:'CN',keywords:['portland cement']},
   {code:'3105',display:'3105',name:'Mineral or chemical fertilisers containing two or three fertilising elements; other fertilisers',sector:'Fertilisers',gas:'CO₂, N₂O',level:'Heading',keywords:['compound fertiliser','npk fertiliser','npk fertilizer','chemical fertiliser','chemical fertilizer'],excludedCodes:['31056000']},
-  {code:'72',display:'72',name:'Iron and steel',sector:'Iron & steel',gas:'CO₂',level:'Chapter',keywords:['iron','steel','carbon steel','steel products'],excludedCodes:['72022','72023000','72025000','72027000','72028000','72029100','72029200','72029300','720299','7204']},
-  {code:'7301',display:'7301',name:'Sheet piling of iron or steel; welded angles, shapes and sections',sector:'Iron & steel',gas:'CO₂',level:'Heading',keywords:['sheet piling','steel sheet pile','welded steel angle']},
-  {code:'7302',display:'7302',name:'Railway or tramway track construction material of iron or steel',sector:'Iron & steel',gas:'CO₂',level:'Heading',keywords:['steel rail','railway track','tramway track']},
   {code:'7319',display:'7319',name:'Sewing needles, knitting needles, bodkins, crochet hooks and similar articles of iron or steel',sector:'Iron & steel',gas:'CO₂',level:'Heading',keywords:['steel needle','knitting needle','crochet hook']},
   {code:'7320',display:'7320',name:'Springs and leaves for springs, of iron or steel',sector:'Iron & steel',gas:'CO₂',level:'Heading',keywords:['steel spring','iron spring','leaf spring']},
   {code:'7322',display:'7322',name:'Radiators for central heating and non-electric air heaters, and parts, of iron or steel',sector:'Iron & steel',gas:'CO₂',level:'Heading',keywords:['steel radiator','central heating radiator','air heater']}
