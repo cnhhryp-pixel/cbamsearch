@@ -1,4 +1,4 @@
-import { cbamCodes } from '../../../data/cbam-codes';
+import { cbamCodes, getScopeMatch, CBAM_SCOPE_SOURCE } from '../../../data/cbam-codes';
 import { notFound } from 'next/navigation';
 import Breadcrumbs from '../../components/Breadcrumbs';
 import ToolLinks from '../../components/ToolLinks';
@@ -11,6 +11,8 @@ export default function Page({params}){
   const x=cbamCodes.find(i=>i.code===params.code);if(!x)notFound();
   const exclusions=(x.excludedCodes||[]).map(code=>code.replace(/\s/g,''));
   const isBroad=['Chapter','Heading','Subheading'].includes(x.level);
+  const scope=getScopeMatch(x.code);
+  const scopeLabel=scope.status==='covered'?'Covered record':scope.status==='potential'?'Potential scope':scope.status==='excluded'?'Excluded':'Classification check';
   const faqs=[
     {question:`Is CN code ${x.display} covered by CBAM?`,answer:isBroad?`${x.display} is represented as a broader classification in the CBAMSearch scope dataset. Check the exact CN code because narrower inclusions or exclusions may apply.`:`${x.display} is recorded in the CBAMSearch Annex I scope dataset under the ${x.sector} sector. Confirm the exact customs classification before relying on the result.`},
     {question:`Which CBAM sector is ${x.display} in?`,answer:`This record is classified under ${x.sector} in the CBAMSearch dataset.`},
@@ -22,7 +24,7 @@ export default function Page({params}){
     <Breadcrumbs items={[{name:'CN Code',href:'/cn-code/'},{name:x.display,href:`/cn-code/${x.code}/`}]} />
     <div className="eyebrow">{x.sector} · {x.level}</div><h1>CN Code {x.display} — {x.name}</h1><p className="lead">Check the CBAM scope record, classification level, relevant exclusions and the next steps for estimating CBAM exposure for CN {x.display}.</p>
     <div className="grid">
-      <div className="card"><span>CBAM scope</span><div className="metric">{isBroad?'Listed scope':'Covered record'}</div><p>{isBroad?'This broader classification is represented in the Annex I dataset. A more specific CN code may be required for a final classification.':'This record maps to a code listed in the current CBAM scope dataset.'}</p></div>
+      <div className="card"><span>CBAM scope</span><div className="metric">{scopeLabel}</div><p>{isBroad?'This broader classification is represented in the Annex I dataset. A more specific CN code may be required for a final classification.':'This record maps to a code listed in the current CBAM scope dataset.'}</p></div>
       <div className="card"><span>Sector</span><div className="metric smallmetric">{x.sector}</div><p>CBAM sector associated with this classification.</p></div>
       <div className="card"><span>Greenhouse gas</span><div className="metric smallmetric">{x.gas}</div><p>Gas category stored for this scope record.</p></div>
     </div>
@@ -39,6 +41,6 @@ export default function Page({params}){
     {related.length>0&&<section><div className="eyebrow">Explore the same sector</div><h2>Related {x.sector} CN codes</h2><div className="results">{related.map(i=><a className="result" href={`/cn-code/${i.code}/`} key={i.code}><div><b>{i.display}</b><h3>{i.name}</h3></div><span className="chip">{i.level}</span></a>)}</div></section>}
     <FAQ items={faqs} />
     <ToolLinks />
-    <div className="sourcebox"><b>Source & methodology</b><p>Primary scope reference: Regulation (EU) 2023/956, Annex I. This page is informational; exact customs classification and current scope should be verified using current EU legislation and customs classification sources.</p><p><b>Dataset updated:</b> 18 September 2026 · <b>Method:</b> exact-code, prefix and recorded-exclusion mapping.</p><a href="https://eur-lex.europa.eu/eli/reg/2023/956/oj">View primary legislation →</a></div>
+    <div className="sourcebox"><b>Source & methodology</b><p>Primary scope reference: Regulation (EU) 2023/956, Annex I. This page is informational; exact customs classification and current scope should be verified using current EU legislation and customs classification sources.</p><p><b>Source:</b> {CBAM_SCOPE_SOURCE.title} · <b>Checked:</b> {CBAM_SCOPE_SOURCE.checked} · <b>Method:</b> exact code → parent scope → recorded exclusion check.</p><a href="https://eur-lex.europa.eu/eli/reg/2023/956/oj">View primary legislation →</a></div>
   </div></main>
 }
