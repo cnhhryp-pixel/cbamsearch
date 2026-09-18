@@ -6,3 +6,5 @@
 .scopeStatus{margin-top:24px;border-radius:16px;padding:26px;border:1px solid var(--line)}.scopeStatus.covered{background:#eff9ef;border-color:#b8d8bd}.scopeStatus.unknown{background:#fff9e9;border-color:#e5d39c}.scopeStatus h2{margin:8px 0;font-size:27px}.scopeStatus .card{margin-top:18px;background:#fff}
 
 .requirements{margin-top:58px}.steps{display:grid;gap:12px;margin-top:28px}.step{display:flex;gap:18px;padding:20px;border:1px solid var(--line);border-radius:13px;color:var(--ink)}.step>span,.stepNo{font-weight:800;color:var(--green);font-size:13px}.step p{margin:6px 0 0}.step:hover{background:var(--paper)}
+
+.priceHero{margin:28px 0;display:flex;gap:14px;align-items:baseline;flex-wrap:wrap}.priceHero strong{font-size:52px}.tableWrap{overflow:auto;border:1px solid var(--line);border-radius:14px}table{width:100%;border-collapse:collapse;min-width:680px}th,td{text-align:left;padding:16px;border-bottom:1px solid var(--line)}th{background:var(--paper);font-size:12px;text-transform:uppercase;letter-spacing:.06em}tbody tr:last-child td{border-bottom:0}
