@@ -5,7 +5,7 @@ import ToolLinks from '../../components/ToolLinks';
 import FAQ from '../../components/FAQ';
 
 export function generateStaticParams(){return cbamCodes.map(x=>({code:x.code}))}
-export function generateMetadata({params}){const x=cbamCodes.find(i=>i.code===params.code);return x?{title:`${x.display} — ${x.name} | CBAM CN Code`,description:`Check EU CBAM scope information for ${x.display}, ${x.name}. Sector: ${x.sector}.`,alternates:{canonical:`/cn-code/${x.code}/`}}:{}}
+export function generateMetadata({params}){const x=cbamCodes.find(i=>i.code===params.code);return x?{title:`${x.display} — ${x.name} | CBAM CN Code`,description:`Check EU CBAM scope information for ${x.display}, ${x.name}. Sector: ${x.sector}.`,alternates:{canonical:`/cn-code/${x.code}/`},robots:{index:x.level==='CN'||x.level==='Subheading',follow:true}}:{}}
 
 export default function Page({params}){
   const x=cbamCodes.find(i=>i.code===params.code);if(!x)notFound();
