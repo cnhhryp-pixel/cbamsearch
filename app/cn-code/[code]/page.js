@@ -5,7 +5,7 @@ import ToolLinks from '../../components/ToolLinks';
 import FAQ from '../../components/FAQ';
 
 export function generateStaticParams(){return cbamCodes.map(x=>({code:x.code}))}
-export function generateMetadata({params}){const x=cbamCodes.find(i=>i.code===params.code);return x?{title:`${x.display} — ${x.name} | CBAM CN Code`,description:`Check EU CBAM scope information for ${x.display}, ${x.name}. Sector: ${x.sector}.`,alternates:{canonical:`/cn-code/${x.code}/`},robots:{index:x.level==='CN'||x.level==='Subheading',follow:true}}:{}}
+export function generateMetadata({params}){const x=cbamCodes.find(i=>i.code===params.code);return x?{title:`CN Code ${x.display} CBAM — ${x.name} Scope & Calculator`,description:`Check whether CN code ${x.display} (${x.name}) is in the EU CBAM scope. Review sector, classification guidance, exclusions and continue to the CBAM calculator.`,alternates:{canonical:`/cn-code/${x.code}/`},robots:{index:x.level==='CN'||x.level==='Subheading',follow:true}}:{}}
 
 export default function Page({params}){
   const x=cbamCodes.find(i=>i.code===params.code);if(!x)notFound();
@@ -20,7 +20,7 @@ export default function Page({params}){
   const related=cbamCodes.filter(i=>i.code!==x.code&&i.sector===x.sector).sort((a,b)=>{const ap=a.code.startsWith(x.code)||x.code.startsWith(a.code)?0:1;const bp=b.code.startsWith(x.code)||x.code.startsWith(b.code)?0:1;return ap-bp||a.code.localeCompare(b.code)}).slice(0,6);
   return <main className="section"><div className="wrap">
     <Breadcrumbs items={[{name:'CN Code',href:'/cn-code/'},{name:x.display,href:`/cn-code/${x.code}/`}]} />
-    <div className="eyebrow">{x.sector} · {x.level}</div><h1>{x.display}</h1><p className="lead">{x.name}</p>
+    <div className="eyebrow">{x.sector} · {x.level}</div><h1>CN Code {x.display} — {x.name}</h1><p className="lead">Check the CBAM scope record, classification level, relevant exclusions and the next steps for estimating CBAM exposure for CN {x.display}.</p>
     <div className="grid">
       <div className="card"><span>CBAM scope</span><div className="metric">{isBroad?'Listed scope':'Covered record'}</div><p>{isBroad?'This broader classification is represented in the Annex I dataset. A more specific CN code may be required for a final classification.':'This record maps to a code listed in the current CBAM scope dataset.'}</p></div>
       <div className="card"><span>Sector</span><div className="metric smallmetric">{x.sector}</div><p>CBAM sector associated with this classification.</p></div>
