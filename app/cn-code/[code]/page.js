@@ -2,6 +2,7 @@ import { cbamCodes } from '../../../data/cbam-codes';
 import { notFound } from 'next/navigation';
 import Breadcrumbs from '../../components/Breadcrumbs';
 import ToolLinks from '../../components/ToolLinks';
+import FAQ from '../../components/FAQ';
 
 export function generateStaticParams(){return cbamCodes.map(x=>({code:x.code}))}
 export function generateMetadata({params}){const x=cbamCodes.find(i=>i.code===params.code);return x?{title:`${x.display} — ${x.name} | CBAM CN Code`,description:`Check EU CBAM scope information for ${x.display}, ${x.name}. Sector: ${x.sector}.`,alternates:{canonical:`/cn-code/${x.code}/`}}:{}}
@@ -10,6 +11,12 @@ export default function Page({params}){
   const x=cbamCodes.find(i=>i.code===params.code);if(!x)notFound();
   const exclusions=(x.excludedCodes||[]).map(code=>code.replace(/\s/g,''));
   const isBroad=['Chapter','Heading','Subheading'].includes(x.level);
+  const faqs=[
+    {question:`Is CN code ${x.display} covered by CBAM?`,answer:isBroad?`${x.display} is represented as a broader classification in the CBAMSearch scope dataset. Check the exact CN code because narrower inclusions or exclusions may apply.`:`${x.display} is recorded in the CBAMSearch Annex I scope dataset under the ${x.sector} sector. Confirm the exact customs classification before relying on the result.`},
+    {question:`Which CBAM sector is ${x.display} in?`,answer:`This record is classified under ${x.sector} in the CBAMSearch dataset.`},
+    {question:'Can I calculate CBAM cost from the CN code alone?',answer:'No. The CN code is used to establish product scope and classification. A cost estimate also needs applicable embedded-emissions inputs, the relevant certificate price period and other applicable adjustments.'},
+    {question:'What should I do if my product only matches a broad heading?',answer:'Determine the more specific CN classification used for the imported goods and check it against the applicable scope and exclusions before using the result for compliance planning.'}
+  ];
   const related=cbamCodes.filter(i=>i.code!==x.code&&i.sector===x.sector).sort((a,b)=>{const ap=a.code.startsWith(x.code)||x.code.startsWith(a.code)?0:1;const bp=b.code.startsWith(x.code)||x.code.startsWith(b.code)?0:1;return ap-bp||a.code.localeCompare(b.code)}).slice(0,6);
   return <main className="section"><div className="wrap">
     <Breadcrumbs items={[{name:'CN Code',href:'/cn-code/'},{name:x.display,href:`/cn-code/${x.code}/`}]} />
@@ -30,6 +37,7 @@ export default function Page({params}){
       </div>
     </section>
     {related.length>0&&<section><div className="eyebrow">Explore the same sector</div><h2>Related {x.sector} CN codes</h2><div className="results">{related.map(i=><a className="result" href={`/cn-code/${i.code}/`} key={i.code}><div><b>{i.display}</b><h3>{i.name}</h3></div><span className="chip">{i.level}</span></a>)}</div></section>}
+    <FAQ items={faqs} />
     <ToolLinks />
     <div className="sourcebox"><b>Source & methodology</b><p>Primary scope reference: Regulation (EU) 2023/956, Annex I. This page is informational; exact customs classification and current scope should be verified using current EU legislation and customs classification sources.</p><p><b>Dataset updated:</b> 18 September 2026 · <b>Method:</b> exact-code, prefix and recorded-exclusion mapping.</p><a href="https://eur-lex.europa.eu/eli/reg/2023/956/oj">View primary legislation →</a></div>
   </div></main>
