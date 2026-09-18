@@ -1,0 +1,1 @@
+export const metadata={title:'CBAM Guides',alternates:{canonical:'/guides/'}};export default function Page(){return <main className="section"><div className="wrap"><div className="eyebrow">Knowledge base</div><h1>CBAM Guides</h1><p className="lead">Practical guides will support the tools, with citations to European Commission and EUR-Lex primary sources.</p></div></main>}
