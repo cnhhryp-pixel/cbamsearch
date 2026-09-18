@@ -47,5 +47,69 @@ cbamCodes.push(
 {code:'7326',display:'7326',name:'Other articles of iron or steel',sector:'Iron & steel',gas:'CO₂',level:'Heading',keywords:['iron articles','steel articles']}
 );
 
-export const normalizeCode=v=>(v||'').replace(/\D/g,'');
-export function searchCbam(q){const raw=(q||'').trim().toLowerCase(), n=normalizeCode(raw);if(!raw)return [];return cbamCodes.filter(x=>(n&& (x.code.startsWith(n)||n.startsWith(x.code)))||x.name.toLowerCase().includes(raw)||x.sector.toLowerCase().includes(raw)||x.keywords.some(k=>k.includes(raw))).slice(0,30)}
+export const normalizeCode = v => (v || '').replace(/\D/g, '');
+
+const aliases = {
+  aluminum: 'aluminium',
+  fertilizer: 'fertiliser',
+  fertilizers: 'fertilisers',
+  tubing: 'tube',
+  pipes: 'pipe',
+  fastener: 'fasteners',
+  screw: 'screws',
+  bolt: 'bolts',
+  washer: 'washers',
+  nut: 'nuts'
+};
+
+const normalizeText = value =>
+  (value || '')
+    .toLowerCase()
+    .replace(/[-_/]/g, ' ')
+    .replace(/[^a-z0-9 ]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .split(' ')
+    .map(word => aliases[word] || word)
+    .join(' ');
+
+const searchableText = item =>
+  normalizeText([item.name, item.sector, ...(item.keywords || [])].join(' '));
+
+export function searchCbam(q) {
+  const raw = (q || '').trim();
+  const n = normalizeCode(raw);
+  const text = normalizeText(raw);
+  if (!raw) return [];
+
+  return cbamCodes
+    .map(item => {
+      const haystack = searchableText(item);
+      let score = 0;
+
+      if (n && item.code === n) score += 100;
+      else if (n && item.code.startsWith(n)) score += 80;
+      else if (n && n.startsWith(item.code)) score += 70;
+
+      if (text) {
+        const name = normalizeText(item.name);
+        const sector = normalizeText(item.sector);
+        const keywords = (item.keywords || []).map(normalizeText);
+
+        if (name === text) score += 60;
+        if (keywords.includes(text)) score += 55;
+        if (name.startsWith(text)) score += 45;
+        if (keywords.some(k => k.startsWith(text))) score += 40;
+        if (haystack.includes(text)) score += 30;
+
+        const tokens = text.split(' ').filter(Boolean);
+        if (tokens.length > 1 && tokens.every(token => haystack.includes(token))) score += 20;
+      }
+
+      return { item, score };
+    })
+    .filter(result => result.score > 0)
+    .sort((a, b) => b.score - a.score || a.item.code.localeCompare(b.item.code))
+    .slice(0, 30)
+    .map(result => result.item);
+}
