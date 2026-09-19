@@ -1,0 +1,2 @@
+export const metadata={title:'Login | CBAMSearch Workspace'};
+export default function Page(){return <main className="section"><div className="wrap"><div className="eyebrow">ACCOUNT</div><h1>Login to CBAMSearch</h1><p className="lead">Access your CBAM assessments, reports and compliance workspace.</p><div className="card"><label>Email</label><input placeholder="Business email"/><label>Password</label><input type="password" placeholder="Password"/><button>Login</button></div></div></main>}
