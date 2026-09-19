@@ -1,0 +1,2 @@
+export const metadata={title:'CBAM Emissions Data Guide',description:'Learn about embedded emissions data used in CBAM preparation.'};
+export default function Page(){return <main className="section"><div className="wrap"><div className="eyebrow">CBAM Guide</div><h1>CBAM Emissions Data Guide</h1><p className="lead">Understand the role of embedded emissions information in CBAM processes.</p><h2>Embedded emissions</h2><p>Embedded emissions represent greenhouse gas emissions associated with producing goods. Accurate information supports CBAM-related assessment.</p></div></main>}
