@@ -3,7 +3,7 @@ import {useState} from 'react';
 import {createClient} from '@supabase/supabase-js';
 
 export default function Page(){
- const [form,setForm]=useState({product:'',cn:'',country:'',sector:'',quantity:'',emissions:'',name:'',company:'',email:'',details:''});
+ const [form,setForm]=useState({product:'',cn:'',country:'',sector:'',quantity:'',emissions:''});
  const [message,setMessage]=useState('');
  const update=(k,v)=>setForm({...form,[k]:v});
  async function saveAssessment(){
@@ -15,7 +15,8 @@ export default function Page(){
   if(!user){setMessage('Please login before creating an assessment.');return;}
   const {error}=await supabase.from('projects').insert({user_id:user.id,product_name:form.product,cn_code:form.cn,country_origin:form.country,sector:form.sector,quantity:form.quantity,status:'draft'});
   if(error){setMessage(error.message);return;}
-  setMessage('Assessment saved. You can continue to purchase the professional report.');
+  setMessage('Assessment created successfully. Continue to professional report.');
  }
- return <main className="section"><div className="wrap"><div className="eyebrow">CBAM ASSESSMENT</div><h1>Start Your CBAM Compliance Assessment</h1><p className="lead">Evaluate products, CN codes and import scenarios before purchasing a detailed report.</p><div className="grid"><div className="card"><h2>Product Details</h2><input placeholder="Product name" onChange={e=>update('product',e.target.value)}/><input placeholder="CN Code" onChange={e=>update('cn',e.target.value)}/><input placeholder="Country of origin" onChange={e=>update('country',e.target.value)}/></div><div className="card"><h2>CBAM Data</h2><input placeholder="Sector" onChange={e=>update('sector',e.target.value)}/><input placeholder="Quantity" onChange={e=>update('quantity',e.target.value)}/><input placeholder="Emission data available?" onChange={e=>update('emissions',e.target.value)}/></div></div><button onClick={saveAssessment}>Create Assessment</button><p>{message}</p><div className="card"><h2>Professional CBAM Report</h2><p>Detailed compliance report from €49</p><a href="/pricing">View Report Options</a></div></div></main>
+ const Field=({name,placeholder})=><input value={form[name]} placeholder={placeholder} onChange={e=>update(name,e.target.value)}/>;
+ return <main className="section"><div className="wrap"><div className="eyebrow">CBAM REPORT GENERATOR</div><h1>Create Your CBAM Compliance Assessment</h1><p className="lead">Analyze your imported products, CN codes and CBAM reporting requirements.</p><div className="steps"><div>01 Product</div><div>02 Import Data</div><div>03 Report</div></div><div className="card"><h2>Product Information</h2><div className="grid"><Field name="product" placeholder="Product name"/><Field name="cn" placeholder="CN Code (Example: 7318.15)"/><Field name="country" placeholder="Country of origin"/></div></div><div className="card"><h2>CBAM Assessment Details</h2><div className="grid"><Field name="sector" placeholder="Sector (Steel / Aluminium)"/><Field name="quantity" placeholder="Annual quantity"/><Field name="emissions" placeholder="Emission data availability"/></div></div><button onClick={saveAssessment}>Generate Free Assessment</button><p>{message}</p><div className="card premium"><h2>Professional CBAM Report</h2><p>Get a detailed PDF compliance report with CN code review, CBAM analysis and report history.</p><strong>Starting from €49</strong><br/><a href="/pricing">Upgrade to Professional Report</a></div></div></main>
 }
