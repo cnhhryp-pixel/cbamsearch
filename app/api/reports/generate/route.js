@@ -1,26 +1,35 @@
 import {NextResponse} from 'next/server';
+import {uploadReportPDF} from '@/lib/storage/report-upload';
+import {createCBAMReportDocument} from '@/lib/pdf/generator';
 
 export async function POST(request){
  try{
-  const body=await request.json();
+  const data=await request.json();
 
-  const report={
-   report_id:body.report_id || null,
-   title:'CBAM Compliance Assessment Report',
-   sections:[
-    'Product Information',
-    'CN Code Classification',
-    'Country of Origin',
-    'CBAM Sector Analysis',
-    'Emission Data Review',
-    'Compliance Notes'
-   ],
-   format:'PDF',
-   status:'ready'
-  };
+  if(!data.report_id){
+   return NextResponse.json({success:false,message:'Missing report id'},{status:400});
+  }
 
-  return NextResponse.json({success:true,report,message:'Report generation workflow foundation ready.'});
+  const report=createCBAMReportDocument(data);
+
+  // PDF renderer will convert this document into a real PDF buffer.
+  const pdfBuffer=Buffer.from(JSON.stringify(report));
+
+  const upload=await uploadReportPDF({
+   fileName:`cbam-report-${data.report_id}.pdf`,
+   fileBuffer:pdfBuffer
+  });
+
+  if(!upload.success){
+   return NextResponse.json(upload,{status:500});
+  }
+
+  return NextResponse.json({
+   success:true,
+   fileUrl:upload.url,
+   report
+  });
  }catch(error){
-  return NextResponse.json({success:false,error:'Invalid request'},{status:400});
+  return NextResponse.json({success:false,error:error.message},{status:500});
  }
 }
