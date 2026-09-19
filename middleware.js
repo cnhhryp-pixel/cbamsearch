@@ -12,6 +12,18 @@ export async function middleware(request){
   return NextResponse.redirect(new URL('/login',request.url));
  }
 
+ if(isAdminRoute && session){
+  const {data:profile}=await supabase
+   .from('profiles')
+   .select('role')
+   .eq('id',session.user.id)
+   .single();
+
+  if(!profile || profile.role !== 'admin'){
+   return NextResponse.redirect(new URL('/dashboard',request.url));
+  }
+ }
+
  return response;
 }
 
