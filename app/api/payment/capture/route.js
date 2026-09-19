@@ -28,11 +28,16 @@ export async function POST(request){
   });
 
   const data=await response.json();
+  const paid=response.ok && data.status==='COMPLETED';
 
   return NextResponse.json({
    success:response.ok,
    payment:data,
-   report_id:body.report_id || null
+   report_id:body.report_id || null,
+   sync:{
+    payment_status:paid?'paid':'pending',
+    report_status:paid?'completed':'pending'
+   }
   });
 
  }catch(error){
