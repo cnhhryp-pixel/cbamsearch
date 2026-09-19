@@ -6,6 +6,7 @@ export async function POST(request){
     const body=await request.json();
 
     const project={
+      user_id: body.user_id || null,
       product_name: body.product_name || '',
       cn_code: body.cn_code || '',
       country_origin: body.country_origin || '',
