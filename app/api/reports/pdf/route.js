@@ -1,6 +1,8 @@
 import {NextResponse} from 'next/server';
 import {uploadReportFile} from '@/lib/storage/supabase';
 import {renderCBAMReport} from '@/lib/pdf/render';
+import {buildCBAMReportTemplate} from '@/lib/reports/pdf-template';
+import {createClient} from '@supabase/supabase-js';
 
 export async function POST(request){
  try{
@@ -9,15 +11,30 @@ export async function POST(request){
   const fileName=`CBAM-Report-${body.report_id || 'draft'}.pdf`;
   const filePath=`reports/${body.report_id || 'draft'}/${fileName}`;
 
-  const pdfBuffer=renderCBAMReport({
-   customer:body.customer,
+  const template=buildCBAMReportTemplate({
+   reportId:body.report_id,
    product:body.product,
-   cn_code:body.cn_code,
+   cnCode:body.cn_code,
    origin:body.origin,
    sector:body.sector
   });
 
+  const pdfBuffer=renderCBAMReport(template);
   const upload=await uploadReportFile(filePath,pdfBuffer);
+
+  if(body.report_id){
+   const supabase=createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+   );
+
+   await supabase.from('reports').update({
+    version:1,
+    file_url:upload?.url || null,
+    status:'generated',
+    updated_at:new Date().toISOString()
+   }).eq('id',body.report_id);
+  }
 
   return NextResponse.json({
    success:true,
