@@ -1,4 +1,5 @@
 import {NextResponse} from 'next/server';
+import {uploadReportFile} from '@/lib/storage/supabase';
 
 export async function POST(request){
  try{
@@ -19,8 +20,11 @@ export async function POST(request){
    status:'generated'
   };
 
-  return NextResponse.json({success:true,pdf});
+  const filePath=`reports/${body.report_id || 'draft'}/${pdf.file_name}`;
+  const upload=await uploadReportFile(filePath,Buffer.from(JSON.stringify(pdf,null,2),'utf-8'));
+
+  return NextResponse.json({success:true,pdf,storage:upload});
  }catch(error){
-  return NextResponse.json({success:false,error:'Invalid request'},{status:400});
+  return NextResponse.json({success:false,error:error.message},{status:400});
  }
 }
