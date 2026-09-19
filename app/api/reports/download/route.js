@@ -14,6 +14,20 @@ export async function POST(request){
    return NextResponse.json({success:false,message:'Storage is not configured.'},{status:500});
   }
 
+  const {data:report,error}=await supabase
+   .from('reports')
+   .select('id,status')
+   .eq('id',body.report_id)
+   .single();
+
+  if(error || !report){
+   return NextResponse.json({success:false,message:'Report not found.'},{status:404});
+  }
+
+  if(report.status !== 'paid'){
+   return NextResponse.json({success:false,message:'Payment required.'},{status:403});
+  }
+
   const filePath=`reports/${body.report_id}/CBAM-Report-${body.report_id}.pdf`;
 
   const {data}=supabase.storage
