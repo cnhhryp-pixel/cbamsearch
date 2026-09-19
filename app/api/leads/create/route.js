@@ -1,5 +1,7 @@
 import {NextResponse} from 'next/server';
 import {createClient} from '@supabase/supabase-js';
+import {buildLeadCustomerEmail,buildLeadAdminEmail} from '@/lib/email/lead';
+import {sendEmail} from '@/lib/email/send';
 
 export async function POST(request){
  try{
@@ -25,7 +27,18 @@ export async function POST(request){
    return NextResponse.json({success:false,error:error.message});
   }
 
-  return NextResponse.json({success:true,lead:data?.[0]});
+  const lead=data?.[0] || body;
+  const customerEmail=lead.email ? await sendEmail({
+   to:lead.email,
+   ...buildLeadCustomerEmail(lead)
+  }) : null;
+
+  const adminEmail=process.env.ADMIN_EMAIL ? await sendEmail({
+   to:process.env.ADMIN_EMAIL,
+   ...buildLeadAdminEmail(lead)
+  }) : null;
+
+  return NextResponse.json({success:true,lead,notifications:{customerEmail,adminEmail}});
  }catch(error){
   return NextResponse.json({success:false,error:error.message},{status:500});
  }
