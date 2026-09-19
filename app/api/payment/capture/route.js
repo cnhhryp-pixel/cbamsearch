@@ -1,19 +1,41 @@
 import {NextResponse} from 'next/server';
+import {getPayPalAccessToken,getPayPalBaseUrl} from '@/lib/paypal/client';
+import {isPayPalConfigured} from '@/lib/paypal/config';
 
 export async function POST(request){
  try{
   const body=await request.json();
 
-  const result={
-   order_id:body.order_id || null,
-   report_id:body.report_id || null,
-   payment_status:'paid',
-   report_status:'completed',
-   message:'Payment capture workflow foundation ready.'
-  };
+  if(!isPayPalConfigured()){
+   return NextResponse.json({success:false,message:'PayPal credentials are not configured.'});
+  }
 
-  return NextResponse.json({success:true,result});
+  const token=await getPayPalAccessToken();
+  if(!token){
+   return NextResponse.json({success:false,message:'Unable to get PayPal access token.'});
+  }
+
+  if(!body.order_id){
+   return NextResponse.json({success:false,message:'Missing PayPal order id.'});
+  }
+
+  const response=await fetch(`${getPayPalBaseUrl()}/v2/checkout/orders/${body.order_id}/capture`,{
+   method:'POST',
+   headers:{
+    'Content-Type':'application/json',
+    'Authorization':`Bearer ${token}`
+   }
+  });
+
+  const data=await response.json();
+
+  return NextResponse.json({
+   success:response.ok,
+   payment:data,
+   report_id:body.report_id || null
+  });
+
  }catch(error){
-  return NextResponse.json({success:false,error:'Invalid request'},{status:400});
+  return NextResponse.json({success:false,error:error.message},{status:500});
  }
 }
