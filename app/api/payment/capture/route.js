@@ -1,4 +1,5 @@
 import {NextResponse} from 'next/server';
+import {createClient} from '@supabase/supabase-js';
 import {getPayPalAccessToken,getPayPalBaseUrl} from '@/lib/paypal/client';
 import {isPayPalConfigured} from '@/lib/paypal/config';
 
@@ -29,6 +30,26 @@ export async function POST(request){
 
   const data=await response.json();
   const paid=response.ok && data.status==='COMPLETED';
+
+  if(paid && process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY){
+   const supabase=createClient(process.env.NEXT_PUBLIC_SUPABASE_URL,process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
+
+   await supabase.from('payments').insert({
+    report_id:body.report_id || null,
+    order_id:body.order_id,
+    provider:'paypal',
+    amount:49,
+    currency:'EUR',
+    status:'paid'
+   });
+
+   if(body.report_id){
+    await supabase.from('reports').update({
+     payment_status:'paid',
+     status:'completed'
+    }).eq('id',body.report_id);
+   }
+  }
 
   return NextResponse.json({
    success:response.ok,
