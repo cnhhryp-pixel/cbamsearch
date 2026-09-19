@@ -1,18 +1,32 @@
 import {NextResponse} from 'next/server';
+import {getSupabaseClient} from '@/lib/storage/supabase';
 
 export async function POST(request){
  try{
   const body=await request.json();
 
-  const download={
-   report_id:body.report_id || null,
-   file_name:`CBAM-Report-${body.report_id || 'draft'}.pdf`,
-   download_url:null,
-   status:'ready'
-  };
+  if(!body.report_id){
+   return NextResponse.json({success:false,message:'Missing report id.'},{status:400});
+  }
 
-  return NextResponse.json({success:true,download,message:'Report download workflow foundation ready.'});
+  const supabase=getSupabaseClient();
+  if(!supabase){
+   return NextResponse.json({success:false,message:'Storage is not configured.'},{status:500});
+  }
+
+  const filePath=`reports/${body.report_id}/CBAM-Report-${body.report_id}.pdf`;
+
+  const {data}=supabase.storage
+   .from('reports')
+   .getPublicUrl(filePath);
+
+  return NextResponse.json({
+   success:true,
+   file_name:`CBAM-Report-${body.report_id}.pdf`,
+   download_url:data.publicUrl
+  });
+
  }catch(error){
-  return NextResponse.json({success:false,error:'Invalid request'},{status:400});
+  return NextResponse.json({success:false,error:error.message},{status:500});
  }
 }
