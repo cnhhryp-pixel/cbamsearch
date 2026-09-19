@@ -5,18 +5,8 @@ import {createClient} from '@supabase/supabase-js';
 export default function ReportsPage(){
  const [reports,setReports]=useState([]);
  const [status,setStatus]=useState('Loading reports...');
- async function pay(reportId){
-  const res=await fetch('/api/payment/create',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({report_id:reportId})});
-  const data=await res.json();
-  if(data.success){setStatus('PayPal payment request created.');}
-  else{setStatus(data.error||'Payment error');}
- }
- async function generate(report){
-  const res=await fetch('/api/reports/pdf',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({report_id:report.id,product:report.product,cn_code:report.cn_code,origin:report.country_origin,sector:report.sector})});
-  const data=await res.json();
-  if(data.success){setStatus(`PDF generated: ${data.pdf.file_name}`);}
-  else{setStatus(data.error||'PDF generation error');}
- }
+ async function pay(reportId){const res=await fetch('/api/payment/create',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({report_id:reportId})});const data=await res.json();if(data.success){setStatus('PayPal payment request created.');}else{setStatus(data.error||'Payment error');}}
+ async function generate(report){const res=await fetch('/api/reports/pdf',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({report_id:report.id,product:report.product,cn_code:report.cn_code,origin:report.country_origin,sector:report.sector})});const data=await res.json();if(data.success){setStatus(`PDF generated: ${data.pdf.file_name}`);}else{setStatus(data.error||'PDF generation error');}}
+ async function download(report){const res=await fetch('/api/reports/download',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({report_id:report.id})});const data=await res.json();if(data.success){setStatus(`Download ready: ${data.file_name}`);}else{setStatus(data.error||'Download error');}}
  useEffect(()=>{async function load(){const url=process.env.NEXT_PUBLIC_SUPABASE_URL;const key=process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;if(!url||!key){setStatus('Supabase connection required.');return;}const supabase=createClient(url,key);const {data:{user}}=await supabase.auth.getUser();if(!user){setStatus('Please login first.');return;}const {data,error}=await supabase.from('reports').select('*').eq('user_id',user.id).order('created_at',{ascending:false});if(error){setStatus(error.message);return;}setReports(data||[]);setStatus('Reports ready.');}load();},[]);
- return <main className="section"><div className="wrap"><div className="eyebrow">REPORTS</div><h1>My CBAM Reports</h1><p className="lead">View generated CBAM compliance reports and payment status.</p><div className="notice"><p>{status}</p></div>{reports.length===0?<div className="card"><p>No reports created yet.</p></div>:reports.map((r,i)=><div className="card" key={i}><h2>CBAM Assessment Report</h2><p>Status: {r.status}</p><p>Payment: {r.payment_status}</p><p>Price: €{r.price}</p><button onClick={()=>pay(r.id)}>Pay €49 with PayPal</button><button onClick={()=>generate(r)}>Generate PDF</button></div>)}</div></main>
-}
+ return <main className="section"><div className="wrap"><div className="eyebrow">REPORTS</div><h1>My CBAM Reports</h1><p className="lead">View generated CBAM compliance reports and payment status.</p><div className="notice"><p>{status}</p></div>{reports.length===0?<div className="card"><p>No reports created yet.</p></div>:reports.map((r,i)=><div className="card" key={i}><h2>CBAM Assessment Report</h2><p>Status: {r.status}</p><p>Payment: {r.payment_status}</p><p>Price: €{r.price}</p><button onClick={()=>pay(r.id)}>Pay €49 with PayPal</button><button onClick={()=>generate(r)}>Generate PDF</button><button onClick={()=>download(r)}>Download PDF</button></div>)}</div></main>}
