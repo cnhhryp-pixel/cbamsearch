@@ -1,8 +1,8 @@
 "use client";
 import {useState} from 'react';
-import {supabaseConfig} from '../../lib/supabase';
+import {createClient} from '@supabase/supabase-js';
 
 export default function Page(){const [form,setForm]=useState({name:'',company:'',email:'',password:''});const [message,setMessage]=useState('');
 function update(key,value){setForm({...form,[key]:value})}
-async function register(){if(!supabaseConfig.url||!supabaseConfig.anonKey){setMessage('Supabase environment variables are required.');return;}setMessage('Registration connection ready.');}
+async function register(){const url=process.env.NEXT_PUBLIC_SUPABASE_URL;const key=process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;if(!url||!key){setMessage('Supabase environment variables are required.');return;}const supabase=createClient(url,key);const {data,error}=await supabase.auth.signUp({email:form.email,password:form.password});if(error){setMessage(error.message);return;}if(data.user){await supabase.from('profiles').insert({id:data.user.id,email:form.email,company:form.company,plan:'free'});}setMessage('Account created successfully.');}
 return <main className="section"><div className="wrap"><div className="eyebrow">CREATE ACCOUNT</div><h1>Create your CBAMSearch account</h1><p className="lead">Save assessments, manage reports and organize your CBAM compliance projects.</p><div className="card"><label>Name</label><input value={form.name} onChange={e=>update('name',e.target.value)} placeholder="Your name"/><label>Company</label><input value={form.company} onChange={e=>update('company',e.target.value)} placeholder="Company name"/><label>Email</label><input value={form.email} onChange={e=>update('email',e.target.value)} placeholder="Business email"/><label>Password</label><input value={form.password} onChange={e=>update('password',e.target.value)} type="password" placeholder="Password"/><button onClick={register}>Create Account</button><p>{message}</p></div></div></main>}
