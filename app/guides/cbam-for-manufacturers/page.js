@@ -1,0 +1,2 @@
+export const metadata={title:'CBAM Guide for Manufacturers',description:'Preparation guidance for manufacturers supplying products to EU markets.'};
+export default function Page(){return <main className="section"><div className="wrap"><div className="eyebrow">CBAM Guide</div><h1>CBAM Guide for Manufacturers</h1><p className="lead">How manufacturers can prepare product, classification and emissions information.</p><h2>Supplier preparation</h2><p>Manufacturers can improve CBAM readiness by organizing production information and communication with EU customers.</p></div></main>}
