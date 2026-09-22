@@ -1,22 +1,16 @@
-export const metadata={
- title:'CBAM Guides & Resources | EU Carbon Border Adjustment Mechanism',
- description:'Learn about EU CBAM requirements, covered products, CN codes, emissions data and calculation methods with practical CBAM guides.',
- alternates:{canonical:'/guides/'}
-};
-
+export const metadata={title:'CBAM Guides & Resources',description:'Practical guides for CBAM classification, products, emissions, calculations and compliance preparation.',alternates:{canonical:'/guides/'}};
 const guides=[
- {title:'What Is CBAM? Complete Guide to EU Carbon Border Adjustment Mechanism',text:'Understand what CBAM is, why the EU introduced it, covered products and how importers and exporters can prepare.',href:'/guides/what-is-cbam/'},
- {title:'CBAM Products List: Covered Goods and CN Codes Explained',text:'Explore CBAM sectors including iron and steel, aluminium, cement, fertilisers, hydrogen and electricity.',href:'/guides/cbam-products-list/'},
- {title:'How Is CBAM Cost Calculated?',text:'Learn how embedded emissions, product quantities and carbon prices are used to estimate CBAM exposure.',href:'/guides/cbam-calculation/'},
- {title:'CBAM Guide for Exporters Outside the EU',text:'Understand supplier data requirements and how exporters can prepare for EU customer requests.',href:'/guides/cbam-for-exporters/'},
- {title:'CBAM Reporting Requirements Guide',text:'Understand product information, emissions data and preparation steps for CBAM reporting.',href:'/guides/cbam-reporting-requirements/'},
- {title:'CBAM CN Code Guide',text:'Learn why customs classification and CN codes are important when checking CBAM scope.',href:'/guides/cbam-cn-code-guide/'},
- {title:'CBAM Steel and Aluminium Guide',text:'Explore CBAM considerations for steel and aluminium products and supply chains.',href:'/guides/cbam-steel-and-aluminium/'},
- {title:'CBAM Guide for Manufacturers',text:'Preparation guidance for factories providing products and emissions information.',href:'/guides/cbam-for-manufacturers/'},
- {title:'CBAM Emissions Data Guide',text:'Understand embedded emissions data requirements and supplier information.',href:'/guides/cbam-emissions-data/'},
- {title:'CBAM Importer Guide',text:'Learn how EU importers can prepare product classification and compliance information.',href:'/guides/cbam-importer-guide/'},
- {title:'CBAM Certificate Price Guide',text:'Understand the role of CBAM certificates and carbon price information.',href:'/guides/cbam-certificate-price/'},
- {title:'CBAM Transition Period Guide',text:'Learn about CBAM transition arrangements and preparation steps.',href:'/guides/cbam-transition-period/'}
+ ['What Is CBAM?','A practical starting point for understanding the mechanism, product scope and the information workflow.','/guides/what-is-cbam/','START HERE'],
+ ['CBAM Products & CN Codes','Understand how sector scope and customs classification connect in CBAM research.','/guides/cbam-products-list/','CLASSIFICATION'],
+ ['How Is CBAM Cost Calculated?','Learn the inputs behind an indicative exposure calculation and how to use them carefully.','/guides/cbam-calculation/','CALCULATION'],
+ ['Guide for Exporters Outside the EU','Prepare product and emissions information for EU customer requests.','/guides/cbam-for-exporters/','EXPORTERS'],
+ ['Reporting Requirements','Organize product, emissions and reporting information for a CBAM workflow.','/guides/cbam-reporting-requirements/','REPORTING'],
+ ['CN Code Guide','Understand why the exact customs classification matters when checking scope.','/guides/cbam-cn-code-guide/','CN CODES'],
+ ['Steel & Aluminium Guide','Explore research considerations for two major industrial product groups.','/guides/cbam-steel-and-aluminium/','SECTORS'],
+ ['Guide for Manufacturers','Prepare factory and supplier information for downstream CBAM requests.','/guides/cbam-for-manufacturers/','SUPPLIERS'],
+ ['Emissions Data Guide','Understand the role of embedded-emissions inputs and supplier information.','/guides/cbam-emissions-data/','EMISSIONS'],
+ ['Importer Guide','A workflow for organizing classification and compliance information for imports.','/guides/cbam-importer-guide/','IMPORTERS'],
+ ['Certificate Price Guide','Understand how certificate-price information fits into planning estimates.','/guides/cbam-certificate-price/','PRICING'],
+ ['Transition Period Guide','Background on the earlier CBAM transition arrangements and preparation lessons.','/guides/cbam-transition-period/','BACKGROUND']
 ];
-
-export default function Page(){return <main className="section"><div className="wrap"><div className="eyebrow">Knowledge base</div><h1>CBAM Guides & Resources</h1><p className="lead">Learn about EU CBAM requirements, CN codes, emissions data, calculations and compliance preparation with practical guides based on primary sources.</p><div className="grid">{guides.map(x=><a className="card" href={x.href} key={x.title}><b>{x.title}</b><p>{x.text}</p></a>)}</div><section className="section"><div className="notice"><h2>Use CBAMSearch Tools</h2><p>Check product classifications, review CBAM scope information and estimate potential carbon exposure.</p><p><a href="/cn-code/">CN Code Search →</a> · <a href="/cbam-checker/">Scope Checker →</a> · <a href="/cbam-calculator/">CBAM Calculator →</a></p></div></section></div></main>}
+export default function Page(){return <main><section className="directoryHero guideHero"><div className="wrap"><div className="eyebrow">CBAM KNOWLEDGE BASE</div><h1>Practical guidance, connected to the tools.</h1><p className="lead">Learn a concept, check the classification, test a scenario and continue into an assessment without leaving the workflow.</p><div className="heroActions"><a className="btn" href="/cn-code/">Search CN code</a><a className="btn secondaryBtn" href="/cbam-calculator/">Open calculator</a></div></div></section><section className="section"><div className="wrap"><div className="guideGrid">{guides.map(([title,text,href,tag])=><a className="guideCard" href={href} key={href}><span>{tag}</span><h2>{title}</h2><p>{text}</p><b>Read guide →</b></a>)}</div><div className="directoryCta"><div><div className="eyebrow">FROM RESEARCH TO ACTION</div><h2>Ready to organize a real product scenario?</h2></div><a className="btn lightBtn" href="/cbam-report/">Start free assessment →</a></div></div></section></main>}
