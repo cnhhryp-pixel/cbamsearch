@@ -59,3 +59,7 @@
 
 .professionalSections{margin-top:22px;border-top:2px solid #dce7e1;padding-top:20px}.proLabel{font-size:10px;letter-spacing:.12em;font-weight:900;color:var(--green);margin-bottom:12px}.proGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.proGrid section,.proGuidance{border:1px solid #dce7e1;border-radius:12px;padding:17px;background:#fff}.proGrid h3,.proGuidance h3{font-size:15px;margin:0 0 9px}.proGrid ul{padding-left:17px;margin:0;color:#5d7168;font-size:12px;line-height:1.85}.proGuidance{margin-top:12px;background:#f4f8f5}.proGuidance p{font-size:12px;line-height:1.65;margin:0}
 @media(max-width:650px){.proGrid{grid-template-columns:1fr}}
+
+.proDataCard{margin-top:20px;border:1px solid #cfe0d7;border-radius:16px;padding:22px;background:#f8fbf9}.proDataSummary{display:none;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:18px}.proDataSummary>div{border:1px solid #dce7e1;border-radius:9px;padding:11px;background:#fff}.proDataSummary span{display:block;font-size:9px;letter-spacing:.07em;font-weight:900;color:#71827b}.proDataSummary b{display:block;font-size:11px;margin-top:4px}
+@media print{.paidReport .proDataCard>.stepHead,.paidReport .proDataCard>.reportFields{display:none!important}.paidReport .proDataCard{border:0;padding:0;background:#fff}.paidReport .proDataSummary{display:grid!important}.paidReport .professionalSections{break-inside:avoid}.paidReport .printWatermark{display:none!important}}
+@media(max-width:650px){.proDataSummary{grid-template-columns:1fr 1fr}}
