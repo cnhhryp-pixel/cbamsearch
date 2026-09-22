@@ -8,6 +8,7 @@ export default function Page(){
  const [form,setForm]=useState({product:'',cn:'',country:'',quantity:''});
  const [result,setResult]=useState(null);
  const [reportMeta,setReportMeta]=useState(null);
+ const [previewOpen,setPreviewOpen]=useState(false);
  const [pro,setPro]=useState({importer:'',supplier:'',installation:'',reportingPeriod:'',productionRoute:'',directEmissions:'',indirectEmissions:'',precursorEmissions:'',specificEmissions:'',emissionsMethod:'',verificationStatus:'',notes:''});
  useEffect(()=>{setPlan(new URLSearchParams(window.location.search).get('plan')||'free')},[]);
  const update=(k,v)=>setForm(f=>({...f,[k]:v}));
@@ -86,7 +87,9 @@ export default function Page(){
       </div>
       <div className="proGuidance"><h3>Professional review notes</h3><p>Use this section to organize the evidence needed after the initial scope screening. A complete CBAM submission can require additional product, installation, emissions, verification and importer-specific information depending on the applicable rules and reporting period.</p></div>
      </div>}
-     <div className="reportActions">{plan==='free'?<><button className="btn" onClick={()=>window.print()}>Print Free — Watermarked</button><Link className="btn secondaryBtn" href="/pricing/">Download PDF — Upgrade</Link></>:<><button className="btn" onClick={()=>window.print()}>Preview Professional Print</button><span className="proDownloadPending">Clean PDF download unlocks after payment.</span></>}</div>
+     {plan==='professional'&&!previewOpen&&<div className="proPaywall"><span>PROFESSIONAL PREVIEW</span><h3>Your report structure is ready.</h3><p>Review the assessment and entered data above. The clean final report is intentionally locked until payment is connected.</p><div className="proPaywallFeatures"><b>Clean PDF</b><b>No free watermark</b><b>Evidence checklist</b><b>Supplier & emissions data</b></div><button className="btn" onClick={()=>setPreviewOpen(true)}>Preview report layout</button></div>}
+     {plan==='professional'&&previewOpen&&<div className="proPreviewNotice"><b>Preview mode</b><span>This preview is not the paid downloadable report. Payment will unlock the clean PDF.</span></div>}
+     <div className="reportActions">{plan==='free'?<><button className="btn" onClick={()=>window.print()}>Print Free — Watermarked</button><Link className="btn secondaryBtn" href="/pricing/">Download PDF — Upgrade</Link></>:<><button className="btn" onClick={()=>setPreviewOpen(true)}>Preview Professional Report</button><Link className="btn secondaryBtn" href="/pricing/#professional">Unlock Clean PDF — €49</Link></>}</div>
      {plan==='free'&&<div className="downloadNote"><b>Free printing includes a CBAMSearch watermark.</b><span> Upgrade for a clean downloadable PDF without the free-version watermark.</span></div>}
     </div>}
    </div>
