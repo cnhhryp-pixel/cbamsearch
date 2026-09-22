@@ -7,6 +7,7 @@ export default function Page(){
  const [plan,setPlan]=useState('free');
  const [form,setForm]=useState({product:'',cn:'',country:'',quantity:''});
  const [result,setResult]=useState(null);
+ const [reportMeta,setReportMeta]=useState(null);
  useEffect(()=>{setPlan(new URLSearchParams(window.location.search).get('plan')||'free')},[]);
  const update=(k,v)=>setForm(f=>({...f,[k]:v}));
  const matches=useMemo(()=>searchCbam(form.cn||form.product).slice(0,5),[form.cn,form.product]);
@@ -15,6 +16,8 @@ export default function Page(){
    const scope=code?getScopeMatch(code):null;
    const fallback=matches[0]||null;
    setResult({status:scope?.status||(fallback?'match':'unknown'),record:scope?.record||fallback,exclusion:scope?.exclusion||null});
+   const now=new Date();
+   setReportMeta({date:now.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}),id:'CBS-'+now.getFullYear()+'-'+String(now.getTime()).slice(-8)});
  }
  return <main className={"reportBuilder "+(plan==="free"?"freeReport":"paidReport")}><div className="printWatermark" aria-hidden="true"><b>CBAMSearch</b><span>FREE ASSESSMENT • PRELIMINARY</span></div>
   <section className="reportHero"><div className="wrap">
@@ -37,6 +40,8 @@ export default function Page(){
      <p className="formNote">Preliminary classification support only. Verify regulatory decisions against current official EU sources.</p>
     </div>
     {result&&<div className={"assessmentResult "+result.status}>
+     <div className="printReportHeader"><div><b>CBAMSearch</b><span>CBAM Product Assessment Report</span></div><div><span>REPORT ID</span><b>{reportMeta?.id}</b><span>GENERATED</span><b>{reportMeta?.date}</b></div></div>
+     <div className="printSummary"><div><span>PRODUCT</span><b>{form.product||'Not provided'}</b></div><div><span>CN CODE</span><b>{form.cn||'Not provided'}</b></div><div><span>ORIGIN</span><b>{form.country||'Not provided'}</b></div><div><span>QUANTITY</span><b>{form.quantity||'Not provided'}</b></div></div>
      <div className="stepHead"><span>02</span><div><h2>Assessment result</h2><p>Preliminary result based on the information entered above.</p></div></div>
      <div className="resultStatus"><span>ASSESSMENT STATUS</span><strong>{String(result.status).replaceAll('-',' ').toUpperCase()}</strong></div>
      <div className="resultGrid reportResultGrid">
@@ -45,6 +50,9 @@ export default function Page(){
       <div><span>Gas category</span><b>{result.record?.gas||'Requires verification'}</b></div>
       <div><span>Origin</span><b>{form.country||'Not provided'}</b></div>
      </div>
+     <div className="printInterpretation"><h3>Assessment interpretation</h3><p>This preliminary assessment indicates whether the entered product classification may fall within CBAM-related product scope. It is intended as a screening aid and does not replace official customs classification, verified emissions data, or legal/compliance advice.</p></div>
+     <div className="printChecklist"><h3>Recommended next checks</h3><div><span>01</span><p><b>Confirm the CN code</b><br/>Verify the full CN classification used for EU customs purposes.</p></div><div><span>02</span><p><b>Confirm CBAM scope</b><br/>Check the current applicable EU CBAM product scope and any exclusions.</p></div><div><span>03</span><p><b>Prepare emissions data</b><br/>Collect installation and embedded-emissions information where required.</p></div></div>
+     <div className="printDisclaimer"><b>Important notice</b><p>CBAMSearch provides informational screening tools. Regulations, classifications, default values and reporting requirements can change. Always verify material compliance decisions using current official European Union sources and qualified professional advice where appropriate.</p></div>
      <div className="reportActions"><button className="btn" onClick={()=>window.print()}>Print Free — Watermarked</button><Link className="btn secondaryBtn" href="/pricing/">Download PDF — Upgrade</Link></div>
      <div className="downloadNote"><b>Free printing includes a CBAMSearch watermark.</b><span> Upgrade for a clean downloadable PDF without the free-version watermark.</span></div>
     </div>}
