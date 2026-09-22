@@ -44,3 +44,11 @@
 @media(max-width:800px){.reportLayout{grid-template-columns:1fr}.reportAside{position:static}.reportHero h1{font-size:43px}.reportFields,.reportResultGrid{grid-template-columns:1fr}.reportFields label.wide{grid-column:auto}}
 @media(max-width:560px){.reportHero{padding-top:44px}.reportHero h1{font-size:37px}.reportFormCard,.assessmentResult{padding:20px}.reportActions{flex-direction:column}}
 @media print{header,.siteHeader,.siteFooter,.footerBottom,.reportAside,.reportTrust,.reportRun,.formNote,.reportActions{display:none!important}.reportHero{padding:20px 0;background:#fff}.reportHero h1{font-size:32px}.reportSection{padding:0}.reportLayout{display:block}.reportFormCard{box-shadow:none;border:0;padding:0}.assessmentResult{break-inside:avoid}}
+
+.printWatermark{display:none}
+@media print{
+ .freeReport .printWatermark{display:flex!important;position:fixed;inset:0;z-index:9999;pointer-events:none;align-items:center;justify-content:center;flex-direction:column;transform:rotate(-32deg);opacity:.105;color:#173f34;text-align:center}
+ .freeReport .printWatermark b{font-size:82px;letter-spacing:-.04em}
+ .freeReport .printWatermark span{font-size:22px;font-weight:900;letter-spacing:.16em;margin-top:8px}
+ .paidReport .printWatermark{display:none!important}
+}
