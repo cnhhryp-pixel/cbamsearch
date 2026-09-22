@@ -6,29 +6,6 @@ import Link from 'next/link';
 export default function Page(){
  const [status,setStatus]=useState('Checking account session...');
  const [projects,setProjects]=useState([]);
-
- useEffect(()=>{
- async function load(){
-  const supabase=createClient(process.env.NEXT_PUBLIC_SUPABASE_URL,process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
-  const {data:{user}}=await supabase.auth.getUser();
-  if(!user){setStatus('Please login to view your workspace.');return;}
-  const {data,error}=await supabase.from('projects').select('*').eq('user_id',user.id).order('created_at',{ascending:false});
-  if(error){setStatus(error.message);return;}
-  setProjects(data||[]);
-  setStatus('Workspace ready.');
- }
- load();
- },[]);
-
- return <main className="section"><div className="wrap">
- <div className="eyebrow">CBAM WORKSPACE</div>
- <h1>Compliance Management Dashboard</h1>
- <p className="lead">Manage assessments, purchased reports and EU CBAM compliance documents.</p>
- <div className="grid">
-  <div className="card"><h2>New Assessment</h2><p>Create a CBAM product assessment.</p><Link href="/cbam-report">Start Assessment</Link></div>
-  <div className="card"><h2>My Reports</h2><p>Access purchased compliance reports.</p><Link href="/dashboard/reports">View Reports</Link></div>
-  <div className="card"><h2>Professional Report</h2><p>Generate detailed CBAM documentation.</p><Link href="/pricing">Upgrade €49</Link></div>
- </div>
- <div className="notice"><p>{status}</p><h2>Recent Assessments</h2>{projects.length===0?<p>No assessments created yet.</p>:projects.map((p,i)=><div key={i}><b>{p.product_name}</b><p>{p.cn_code} · {p.country_origin}</p></div>)}</div>
- </div></main>
+ useEffect(()=>{async function load(){const url=process.env.NEXT_PUBLIC_SUPABASE_URL,key=process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;if(!url||!key){setStatus('Workspace connection is being configured.');return;}const supabase=createClient(url,key);const {data:{user}}=await supabase.auth.getUser();if(!user){setStatus('Sign in to load your saved workspace.');return;}const {data,error}=await supabase.from('projects').select('*').eq('user_id',user.id).order('created_at',{ascending:false});if(error){setStatus(error.message);return;}setProjects(data||[]);setStatus('Workspace ready.');}load();},[]);
+ return <main className="dashboardPage"><section className="dashboardTop"><div className="wrap dashboardTitle"><div><div className="eyebrow">YOUR WORKSPACE</div><h1>CBAM Dashboard</h1><p className="lead">Keep assessments, calculations and reports in one place.</p></div><Link className="btn" href="/cbam-report/">+ New assessment</Link></div></section><section className="section"><div className="wrap"><div className="dashboardStats"><div><span>Assessments</span><strong>{projects.length}</strong></div><div><span>Reports</span><strong>—</strong></div><div><span>Workspace</span><strong className="statusText">{status}</strong></div></div><div className="dashboardGrid"><div className="dashboardMain"><div className="panelHead"><div><h2>Recent assessments</h2><p>Your latest saved product scenarios.</p></div><Link href="/cbam-report/">Create new →</Link></div>{projects.length===0?<div className="emptyState"><span>◎</span><h3>No saved assessments yet</h3><p>Start with one product, CN code and country of origin.</p><Link className="btn" href="/cbam-report/">Start free assessment</Link></div>:<div className="projectList">{projects.map((p,i)=><div className="projectRow" key={i}><div><b>{p.product_name||'Untitled product'}</b><p>{p.cn_code||'No CN code'} · {p.country_origin||'Origin not set'}</p></div><span>{p.status||'draft'}</span></div>)}</div>}</div><aside className="dashboardSide"><div className="asideCard"><h3>Quick actions</h3><Link href="/cn-code/">Search CN code →</Link><Link href="/cbam-checker/">Check scope →</Link><Link href="/cbam-calculator/">Run calculation →</Link><Link href="/dashboard/reports/">My reports →</Link></div><div className="asideCard premiumAside"><span className="planBadge">PROFESSIONAL</span><h3>Turn an assessment into a report</h3><p>Create a structured deliverable for your compliance workflow.</p><Link className="btn lightBtn" href="/pricing/">View €49 report</Link></div></aside></div></div></section></main>
 }
