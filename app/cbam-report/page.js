@@ -53,6 +53,14 @@ export default function Page(){
      <div className="printInterpretation"><h3>Assessment interpretation</h3><p>This preliminary assessment indicates whether the entered product classification may fall within CBAM-related product scope. It is intended as a screening aid and does not replace official customs classification, verified emissions data, or legal/compliance advice.</p></div>
      <div className="printChecklist"><h3>Recommended next checks</h3><div><span>01</span><p><b>Confirm the CN code</b><br/>Verify the full CN classification used for EU customs purposes.</p></div><div><span>02</span><p><b>Confirm CBAM scope</b><br/>Check the current applicable EU CBAM product scope and any exclusions.</p></div><div><span>03</span><p><b>Prepare emissions data</b><br/>Collect installation and embedded-emissions information where required.</p></div></div>
      <div className="printDisclaimer"><b>Important notice</b><p>CBAMSearch provides informational screening tools. Regulations, classifications, default values and reporting requirements can change. Always verify material compliance decisions using current official European Union sources and qualified professional advice where appropriate.</p></div>
+     {plan==='professional'&&<div className="professionalSections">
+      <div className="proLabel">PROFESSIONAL REPORT CONTENT</div>
+      <div className="proGrid">
+       <section><h3>Compliance evidence checklist</h3><ul><li>Confirmed full CN classification</li><li>Country and installation identification</li><li>Production route / process information</li><li>Direct embedded emissions data</li><li>Indirect emissions data where applicable</li><li>Supporting methodology and source records</li></ul></section>
+       <section><h3>Supplier data checklist</h3><ul><li>Supplier and installation details</li><li>Reporting period</li><li>Product quantity and unit</li><li>Relevant precursor information</li><li>Actual or applicable default emissions data</li><li>Verification/supporting documentation status</li></ul></section>
+      </div>
+      <div className="proGuidance"><h3>Professional review notes</h3><p>Use this section to organize the evidence needed after the initial scope screening. A complete CBAM submission can require additional product, installation, emissions, verification and importer-specific information depending on the applicable rules and reporting period.</p></div>
+     </div>}
      <div className="reportActions"><button className="btn" onClick={()=>window.print()}>Print Free — Watermarked</button><Link className="btn secondaryBtn" href="/pricing/">Download PDF — Upgrade</Link></div>
      <div className="downloadNote"><b>Free printing includes a CBAMSearch watermark.</b><span> Upgrade for a clean downloadable PDF without the free-version watermark.</span></div>
     </div>}
