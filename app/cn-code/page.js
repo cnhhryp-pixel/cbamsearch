@@ -1,34 +1,3 @@
-import { Suspense } from 'react';
-import SearchClient from './SearchClient';
-
-export const metadata = {
-  title: 'CBAM CN Code Lookup & Database',
-  description: 'Search CBAM CN codes and product descriptions by code, sector or product name.',
-  alternates: { canonical: '/cn-code/' }
-};
-
-export default function Page() {
-  return (
-    <main className="section">
-      <div className="wrap">
-        <div className="eyebrow">Classification database</div>
-        <h1>CBAM CN Code Lookup</h1>
-        <p className="lead">
-          Search the Combined Nomenclature references used to identify goods in EU CBAM scope.
-          The MVP starts with high-value sector records and will expand into a versioned database.
-        </p>
-        <Suspense fallback={<div className="card"><p>Loading CN code search…</p></div>}>
-          <SearchClient />
-        </Suspense>
-        <div className="sourcebox">
-          <b>Primary source</b>
-          <p>
-            Regulation (EU) 2023/956, Annex I. Scope can be amended; current consolidated
-            legislation and TARIC should be checked for customs decisions.
-          </p>
-          <a href="https://eur-lex.europa.eu/eli/reg/2023/956/oj">Open EUR-Lex source →</a>
-        </div>
-      </div>
-    </main>
-  );
-}
+import { Suspense } from 'react';import SearchClient from './SearchClient';
+export const metadata={title:'CBAM CN Code Search — Lookup Products & Scope',description:'Search CN codes, product descriptions and CBAM sector records, then continue to scope checking and calculation.',alternates:{canonical:'/cn-code/'}};
+export default function Page(){return <main><section className="toolHero"><div className="wrap toolHeroGrid"><div><div className="eyebrow">CLASSIFICATION SEARCH</div><h1>Find the CN code context behind your CBAM assessment.</h1><p className="lead">Search by CN code, HS prefix or product description, then move directly into scope checking and cost estimation.</p></div><div className="toolFlow"><span>01 Search</span><b>CN code & product records</b><p>Use broader terms when you do not yet know the full 8-digit classification.</p></div></div></section><section className="section"><div className="wrap"><div className="toolWorkspace"><div className="toolMain"><Suspense fallback={<div className="card"><p>Loading CN code search…</p></div>}><SearchClient/></Suspense></div><aside className="toolSide"><div className="asideCard"><div className="eyebrow">NEXT STEPS</div><h3>Continue the workflow</h3><a href="/cbam-checker/">Check CBAM scope →</a><a href="/cbam-calculator/">Estimate exposure →</a><a href="/cbam-report/">Save an assessment →</a></div><div className="asideCard sourceAside"><b>Source basis</b><p>Classification and scope records should be verified against current EU legislation and customs classification before a compliance decision.</p><a href="https://eur-lex.europa.eu/eli/reg/2023/956/oj">Open EUR-Lex →</a></div></aside></div></div></section></main>}
