@@ -16,7 +16,7 @@ export default function Page(){
  const updatePro=(k,v)=>setPro(x=>({...x,[k]:v}));
  const matches=useMemo(()=>searchCbam(form.cn||form.product).slice(0,5),[form.cn,form.product]);
  function saveDraft(){try{sessionStorage.setItem('cbam-professional-draft',JSON.stringify({form,pro,savedAt:Date.now()}));setSaved(true);setTimeout(()=>setSaved(false),1800);}catch{}}
- function goToCheckout(){saveDraft();window.location.href='/pricing/#professional';}
+ function goToCheckout(){saveDraft();window.open('https://www.paypal.com/ncp/payment/GYR9ZKGJRGSZY','_blank','noopener,noreferrer');}
  function assess(){
    const code=normalizeCode(form.cn);
    const scope=code?getScopeMatch(code):null;
@@ -90,10 +90,10 @@ export default function Page(){
       </div>
       <div className="proGuidance"><h3>Professional review notes</h3><p>Use this section to organize the evidence needed after the initial scope screening. A complete CBAM submission can require additional product, installation, emissions, verification and importer-specific information depending on the applicable rules and reporting period.</p></div>
      </div>}
-     {plan==='professional'&&!previewOpen&&<div className="proPaywall"><span>PROFESSIONAL PREVIEW</span><h3>Your report structure is ready.</h3><p>Review the assessment and entered data above. The clean final report is intentionally locked until payment is connected.</p><div className="proPaywallFeatures"><b>Clean PDF</b><b>No free watermark</b><b>Evidence checklist</b><b>Supplier & emissions data</b></div><button className="btn" onClick={()=>setPreviewOpen(true)}>Preview report layout</button></div>}
-     {plan==='professional'&&previewOpen&&<div className="proPreviewNotice"><b>Preview mode</b><span>This preview is not the paid downloadable report. Payment will unlock the clean PDF.</span></div>}
+     {plan==='professional'&&!previewOpen&&<div className="proPaywall"><span>PROFESSIONAL PREVIEW</span><h3>Your report structure is ready.</h3><p>Review the assessment and entered data above. The clean final report is locked until purchase. Complete the €49 EUR payment securely with PayPal, then follow the delivery instructions.</p><div className="proPaywallFeatures"><b>Clean PDF</b><b>No free watermark</b><b>Evidence checklist</b><b>Supplier & emissions data</b></div><button className="btn" onClick={()=>setPreviewOpen(true)}>Preview report layout</button></div>}
+     {plan==='professional'&&previewOpen&&<div className="proPreviewNotice"><b>Preview mode</b><span>This preview is not the paid downloadable report. Complete the PayPal checkout to request the clean PDF.</span></div>}
      {plan==='professional'&&<div className="draftBar"><button onClick={saveDraft}>Save report draft</button><span>{saved?'Draft saved in this browser':'Your report data can be kept while you continue to checkout.'}</span></div>}
-     <div className="reportActions">{plan==='free'?<><button className="btn" onClick={()=>window.print()}>Print Free — Watermarked</button><Link className="btn secondaryBtn" href="/pricing/">Download PDF — Upgrade</Link></>:<><button className="btn" onClick={()=>setPreviewOpen(true)}>Preview Professional Report</button><button className="btn secondaryBtn" onClick={goToCheckout}>Unlock Clean PDF — €49</button></>}</div>
+     <div className="reportActions">{plan==='free'?<><button className="btn" onClick={()=>window.print()}>Print Free — Watermarked</button><Link className="btn secondaryBtn" href="/pricing/">Download PDF — Upgrade</Link></>:<><button className="btn" onClick={()=>setPreviewOpen(true)}>Preview Professional Report</button><button className="btn secondaryBtn" onClick={goToCheckout}>Pay €49 EUR — Get Professional Report</button></>}</div>
      {plan==='free'&&<div className="downloadNote"><b>Free printing includes a CBAMSearch watermark.</b><span> Upgrade for a clean downloadable PDF without the free-version watermark.</span></div>}
     </div>}
    </div>
