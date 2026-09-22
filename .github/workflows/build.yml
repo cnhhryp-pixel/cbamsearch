@@ -15,3 +15,24 @@ jobs:
           node-version: 24
       - run: npm install
       - run: npm run build
+      - name: Start production server
+        run: |
+          npm run start > /tmp/cbam-next.log 2>&1 &
+          echo $! > /tmp/cbam-next.pid
+          for i in {1..30}; do
+            if curl -fsS http://127.0.0.1:3000/ > /dev/null; then exit 0; fi
+            sleep 1
+          done
+          cat /tmp/cbam-next.log
+          exit 1
+      - name: Smoke test professional PDF API
+        run: |
+          status=$(curl -sS -o /tmp/cbam-report.pdf -w "%{http_code}"             -X POST http://127.0.0.1:3000/api/reports/generate             -H "Content-Type: application/json"             --data '{"product":"Aluminium foil","cn":"7607","country":"China","quantity":"100 tonnes","emissions":"Available","status":"covered","classification":"7607","sector":"Aluminium","gas":"CO2"}')
+          test "$status" = "200"
+          test "$(head -c 5 /tmp/cbam-report.pdf)" = "%PDF-"
+          test "$(wc -c < /tmp/cbam-report.pdf)" -gt 1000
+          file /tmp/cbam-report.pdf
+      - name: Stop production server
+        if: always()
+        run: |
+          if [ -f /tmp/cbam-next.pid ]; then kill "$(cat /tmp/cbam-next.pid)" || true; fi
