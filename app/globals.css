@@ -74,3 +74,6 @@
 .draftBar{display:flex;align-items:center;gap:12px;margin-top:18px;padding:11px 13px;border:1px solid #dce7e1;border-radius:10px;background:#f8fbf9}.draftBar button{border:0;background:transparent;color:var(--green);font-weight:900;cursor:pointer;padding:0}.draftBar span{font-size:11px;color:#6b7c74}
 @media(max-width:560px){.draftBar{align-items:flex-start;flex-direction:column}}
 @media print{.draftBar{display:none!important}}
+
+.paymentSetup{margin-top:28px;padding:25px;border:1px solid #d9e5df;border-radius:18px;background:#f7faf8;display:grid;grid-template-columns:1.35fr .65fr;gap:24px}.paymentSetup>div:first-child>span{font-size:10px;letter-spacing:.12em;font-weight:900;color:var(--green)}.paymentSetup h2{font-size:23px;margin:7px 0}.paymentSetup p{font-size:13px;line-height:1.65;max-width:680px}.paymentSteps{display:grid;gap:8px;border-left:1px solid #d9e5df;padding-left:22px}.paymentSteps b{font-size:20px;color:var(--green)}.paymentSteps span{font-size:12px;color:#61736b}
+@media(max-width:700px){.paymentSetup{grid-template-columns:1fr}.paymentSteps{border-left:0;border-top:1px solid #d9e5df;padding:18px 0 0}}
