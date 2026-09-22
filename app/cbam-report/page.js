@@ -16,12 +16,12 @@ export default function Page(){
    const fallback=matches[0]||null;
    setResult({status:scope?.status||(fallback?'match':'unknown'),record:scope?.record||fallback,exclusion:scope?.exclusion||null});
  }
- return <main className="reportBuilder">
+ return <main className={"reportBuilder "+(plan==="free"?"freeReport":"paidReport")}><div className="printWatermark" aria-hidden="true"><b>CBAMSearch</b><span>FREE ASSESSMENT • PRELIMINARY</span></div>
   <section className="reportHero"><div className="wrap">
    <div className="eyebrow">{plan==='professional'?'PROFESSIONAL REPORT':'FREE ASSESSMENT'}</div>
    <h1>CBAM Product Assessment</h1>
    <p className="lead">Check your product against our CBAM classification data and generate a clear assessment directly in your browser.</p>
-   <div className="reportTrust"><span>✓ No account required</span><span>✓ Browser-based</span><span>✓ Free to print</span></div>
+   <div className="reportTrust"><span>✓ No account required</span><span>✓ Browser-based</span><span>✓ Free watermarked print</span></div>
   </div></section>
   <section className="section reportSection"><div className="wrap reportLayout">
    <div>
@@ -45,12 +45,12 @@ export default function Page(){
       <div><span>Gas category</span><b>{result.record?.gas||'Requires verification'}</b></div>
       <div><span>Origin</span><b>{form.country||'Not provided'}</b></div>
      </div>
-     <div className="reportActions"><button className="btn" onClick={()=>window.print()}>Print Report — Free</button><Link className="btn secondaryBtn" href="/pricing/">Download PDF — Upgrade</Link></div>
-     <div className="downloadNote"><b>Free printing stays available.</b><span> PDF download is part of the paid report option.</span></div>
+     <div className="reportActions"><button className="btn" onClick={()=>window.print()}>Print Free — Watermarked</button><Link className="btn secondaryBtn" href="/pricing/">Download PDF — Upgrade</Link></div>
+     <div className="downloadNote"><b>Free printing includes a CBAMSearch watermark.</b><span> Upgrade for a clean downloadable PDF without the free-version watermark.</span></div>
     </div>}
    </div>
    <aside className="reportAside">
-    <div className="asideCard"><span className="sideKicker">WHAT YOU GET</span><h3>Preliminary CBAM assessment</h3><p>Use the result to organize your next compliance checks.</p><ul><li>CN classification match</li><li>CBAM sector indication</li><li>Gas category reference</li><li>Printable assessment</li></ul></div>
+    <div className="asideCard"><span className="sideKicker">WHAT YOU GET</span><h3>Preliminary CBAM assessment</h3><p>Use the result to organize your next compliance checks.</p><ul><li>CN classification match</li><li>CBAM sector indication</li><li>Gas category reference</li><li>Watermarked free print</li></ul></div>
     <div className="asideCard reportUpgrade"><span className="planBadge">PDF REPORT</span><h3>Need a downloadable copy?</h3><p>Upgrade when you need a saved PDF for your files, supplier follow-up or internal review.</p><Link href="/pricing/">View report options →</Link></div>
    </aside>
   </div></section>
