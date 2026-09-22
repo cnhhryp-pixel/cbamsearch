@@ -9,11 +9,14 @@ export default function Page(){
  const [result,setResult]=useState(null);
  const [reportMeta,setReportMeta]=useState(null);
  const [previewOpen,setPreviewOpen]=useState(false);
+ const [saved,setSaved]=useState(false);
  const [pro,setPro]=useState({importer:'',supplier:'',installation:'',reportingPeriod:'',productionRoute:'',directEmissions:'',indirectEmissions:'',precursorEmissions:'',specificEmissions:'',emissionsMethod:'',verificationStatus:'',notes:''});
- useEffect(()=>{setPlan(new URLSearchParams(window.location.search).get('plan')||'free')},[]);
+ useEffect(()=>{const q=new URLSearchParams(window.location.search);setPlan(q.get('plan')||'free');try{const raw=sessionStorage.getItem('cbam-professional-draft');if(raw){const d=JSON.parse(raw);if(d.form)setForm(d.form);if(d.pro)setPro(d.pro);}}catch{}},[]);
  const update=(k,v)=>setForm(f=>({...f,[k]:v}));
  const updatePro=(k,v)=>setPro(x=>({...x,[k]:v}));
  const matches=useMemo(()=>searchCbam(form.cn||form.product).slice(0,5),[form.cn,form.product]);
+ function saveDraft(){try{sessionStorage.setItem('cbam-professional-draft',JSON.stringify({form,pro,savedAt:Date.now()}));setSaved(true);setTimeout(()=>setSaved(false),1800);}catch{}}
+ function goToCheckout(){saveDraft();window.location.href='/pricing/#professional';}
  function assess(){
    const code=normalizeCode(form.cn);
    const scope=code?getScopeMatch(code):null;
@@ -89,7 +92,8 @@ export default function Page(){
      </div>}
      {plan==='professional'&&!previewOpen&&<div className="proPaywall"><span>PROFESSIONAL PREVIEW</span><h3>Your report structure is ready.</h3><p>Review the assessment and entered data above. The clean final report is intentionally locked until payment is connected.</p><div className="proPaywallFeatures"><b>Clean PDF</b><b>No free watermark</b><b>Evidence checklist</b><b>Supplier & emissions data</b></div><button className="btn" onClick={()=>setPreviewOpen(true)}>Preview report layout</button></div>}
      {plan==='professional'&&previewOpen&&<div className="proPreviewNotice"><b>Preview mode</b><span>This preview is not the paid downloadable report. Payment will unlock the clean PDF.</span></div>}
-     <div className="reportActions">{plan==='free'?<><button className="btn" onClick={()=>window.print()}>Print Free — Watermarked</button><Link className="btn secondaryBtn" href="/pricing/">Download PDF — Upgrade</Link></>:<><button className="btn" onClick={()=>setPreviewOpen(true)}>Preview Professional Report</button><Link className="btn secondaryBtn" href="/pricing/#professional">Unlock Clean PDF — €49</Link></>}</div>
+     {plan==='professional'&&<div className="draftBar"><button onClick={saveDraft}>Save report draft</button><span>{saved?'Draft saved in this browser':'Your report data can be kept while you continue to checkout.'}</span></div>}
+     <div className="reportActions">{plan==='free'?<><button className="btn" onClick={()=>window.print()}>Print Free — Watermarked</button><Link className="btn secondaryBtn" href="/pricing/">Download PDF — Upgrade</Link></>:<><button className="btn" onClick={()=>setPreviewOpen(true)}>Preview Professional Report</button><button className="btn secondaryBtn" onClick={goToCheckout}>Unlock Clean PDF — €49</button></>}</div>
      {plan==='free'&&<div className="downloadNote"><b>Free printing includes a CBAMSearch watermark.</b><span> Upgrade for a clean downloadable PDF without the free-version watermark.</span></div>}
     </div>}
    </div>
