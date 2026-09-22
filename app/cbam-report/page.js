@@ -8,7 +8,7 @@ export default function Page(){
  const [form,setForm]=useState({product:'',cn:'',country:'',quantity:''});
  const [result,setResult]=useState(null);
  const [reportMeta,setReportMeta]=useState(null);
- const [pro,setPro]=useState({importer:'',supplier:'',installation:'',reportingPeriod:'',productionRoute:'',notes:''});
+ const [pro,setPro]=useState({importer:'',supplier:'',installation:'',reportingPeriod:'',productionRoute:'',directEmissions:'',indirectEmissions:'',precursorEmissions:'',specificEmissions:'',emissionsMethod:'',verificationStatus:'',notes:''});
  useEffect(()=>{setPlan(new URLSearchParams(window.location.search).get('plan')||'free')},[]);
  const update=(k,v)=>setForm(f=>({...f,[k]:v}));
  const updatePro=(k,v)=>setPro(x=>({...x,[k]:v}));
@@ -63,9 +63,20 @@ export default function Page(){
        <label><span>Installation / plant</span><input placeholder="Production installation" value={pro.installation} onChange={e=>updatePro('installation',e.target.value)}/></label>
        <label><span>Reporting period</span><input placeholder="e.g. 2026" value={pro.reportingPeriod} onChange={e=>updatePro('reportingPeriod',e.target.value)}/></label>
        <label className="wide"><span>Production route</span><input placeholder="e.g. primary aluminium extrusion" value={pro.productionRoute} onChange={e=>updatePro('productionRoute',e.target.value)}/></label>
+       <label><span>Direct emissions <em>Optional</em></span><input placeholder="tCO₂e" inputMode="decimal" value={pro.directEmissions} onChange={e=>updatePro('directEmissions',e.target.value)}/></label>
+       <label><span>Indirect emissions <em>Optional</em></span><input placeholder="tCO₂e" inputMode="decimal" value={pro.indirectEmissions} onChange={e=>updatePro('indirectEmissions',e.target.value)}/></label>
+       <label><span>Precursor emissions <em>Optional</em></span><input placeholder="tCO₂e" inputMode="decimal" value={pro.precursorEmissions} onChange={e=>updatePro('precursorEmissions',e.target.value)}/></label>
+       <label><span>Specific embedded emissions <em>Optional</em></span><input placeholder="tCO₂e / tonne of goods" inputMode="decimal" value={pro.specificEmissions} onChange={e=>updatePro('specificEmissions',e.target.value)}/></label>
+       <label><span>Emissions data method</span><select value={pro.emissionsMethod} onChange={e=>updatePro('emissionsMethod',e.target.value)}><option value="">Select status</option><option>Actual installation data</option><option>Applicable default values</option><option>Mixed / requires review</option><option>Not available yet</option></select></label>
+       <label><span>Verification status</span><select value={pro.verificationStatus} onChange={e=>updatePro('verificationStatus',e.target.value)}><option value="">Select status</option><option>Verified / evidence available</option><option>Supplier evidence received</option><option>Pending supplier evidence</option><option>Not verified</option></select></label>
        <label className="wide"><span>Internal notes <em>Optional</em></span><input placeholder="Reference, supplier follow-up or review note" value={pro.notes} onChange={e=>updatePro('notes',e.target.value)}/></label>
       </div>
       <div className="proDataSummary"><div><span>IMPORTER</span><b>{pro.importer||'Not provided'}</b></div><div><span>SUPPLIER</span><b>{pro.supplier||'Not provided'}</b></div><div><span>INSTALLATION</span><b>{pro.installation||'Not provided'}</b></div><div><span>REPORTING PERIOD</span><b>{pro.reportingPeriod||'Not provided'}</b></div><div><span>PRODUCTION ROUTE</span><b>{pro.productionRoute||'Not provided'}</b></div><div><span>INTERNAL NOTE</span><b>{pro.notes||'Not provided'}</b></div></div>
+      <div className="emissionsSummary">
+       <div className="emissionsTitle"><span>EMBEDDED EMISSIONS DATA</span><b>Professional data summary</b></div>
+       <div className="emissionsGrid"><div><span>DIRECT</span><b>{pro.directEmissions||'Not provided'} {pro.directEmissions&&'tCO₂e'}</b></div><div><span>INDIRECT</span><b>{pro.indirectEmissions||'Not provided'} {pro.indirectEmissions&&'tCO₂e'}</b></div><div><span>PRECURSOR</span><b>{pro.precursorEmissions||'Not provided'} {pro.precursorEmissions&&'tCO₂e'}</b></div><div><span>SPECIFIC EMBEDDED</span><b>{pro.specificEmissions||'Not provided'} {pro.specificEmissions&&'tCO₂e/t'}</b></div><div><span>DATA METHOD</span><b>{pro.emissionsMethod||'Not provided'}</b></div><div><span>VERIFICATION</span><b>{pro.verificationStatus||'Not provided'}</b></div></div>
+       <p className="emissionsCaution">Entered values are user-supplied working data and are not independently verified by CBAMSearch.</p>
+      </div>
      </div>}
      {plan==='professional'&&<div className="professionalSections">
       <div className="proLabel">PROFESSIONAL REPORT CONTENT</div>
@@ -75,8 +86,8 @@ export default function Page(){
       </div>
       <div className="proGuidance"><h3>Professional review notes</h3><p>Use this section to organize the evidence needed after the initial scope screening. A complete CBAM submission can require additional product, installation, emissions, verification and importer-specific information depending on the applicable rules and reporting period.</p></div>
      </div>}
-     <div className="reportActions"><button className="btn" onClick={()=>window.print()}>Print Free — Watermarked</button><Link className="btn secondaryBtn" href="/pricing/">Download PDF — Upgrade</Link></div>
-     <div className="downloadNote"><b>Free printing includes a CBAMSearch watermark.</b><span> Upgrade for a clean downloadable PDF without the free-version watermark.</span></div>
+     <div className="reportActions">{plan==='free'?<><button className="btn" onClick={()=>window.print()}>Print Free — Watermarked</button><Link className="btn secondaryBtn" href="/pricing/">Download PDF — Upgrade</Link></>:<><button className="btn" onClick={()=>window.print()}>Preview Professional Print</button><span className="proDownloadPending">Clean PDF download unlocks after payment.</span></>}</div>
+     {plan==='free'&&<div className="downloadNote"><b>Free printing includes a CBAMSearch watermark.</b><span> Upgrade for a clean downloadable PDF without the free-version watermark.</span></div>}
     </div>}
    </div>
    <aside className="reportAside">
