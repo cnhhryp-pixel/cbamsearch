@@ -8,8 +8,10 @@ export default function Page(){
  const [form,setForm]=useState({product:'',cn:'',country:'',quantity:''});
  const [result,setResult]=useState(null);
  const [reportMeta,setReportMeta]=useState(null);
+ const [pro,setPro]=useState({importer:'',supplier:'',installation:'',reportingPeriod:'',productionRoute:'',notes:''});
  useEffect(()=>{setPlan(new URLSearchParams(window.location.search).get('plan')||'free')},[]);
  const update=(k,v)=>setForm(f=>({...f,[k]:v}));
+ const updatePro=(k,v)=>setPro(x=>({...x,[k]:v}));
  const matches=useMemo(()=>searchCbam(form.cn||form.product).slice(0,5),[form.cn,form.product]);
  function assess(){
    const code=normalizeCode(form.cn);
@@ -53,6 +55,18 @@ export default function Page(){
      <div className="printInterpretation"><h3>Assessment interpretation</h3><p>This preliminary assessment indicates whether the entered product classification may fall within CBAM-related product scope. It is intended as a screening aid and does not replace official customs classification, verified emissions data, or legal/compliance advice.</p></div>
      <div className="printChecklist"><h3>Recommended next checks</h3><div><span>01</span><p><b>Confirm the CN code</b><br/>Verify the full CN classification used for EU customs purposes.</p></div><div><span>02</span><p><b>Confirm CBAM scope</b><br/>Check the current applicable EU CBAM product scope and any exclusions.</p></div><div><span>03</span><p><b>Prepare emissions data</b><br/>Collect installation and embedded-emissions information where required.</p></div></div>
      <div className="printDisclaimer"><b>Important notice</b><p>CBAMSearch provides informational screening tools. Regulations, classifications, default values and reporting requirements can change. Always verify material compliance decisions using current official European Union sources and qualified professional advice where appropriate.</p></div>
+     {plan==='professional'&&<div className="proDataCard">
+      <div className="stepHead"><span>03</span><div><h2>Professional report details</h2><p>Add business and supplier context to make the report more useful for internal review.</p></div></div>
+      <div className="reportFields">
+       <label><span>EU importer / company</span><input placeholder="Company name" value={pro.importer} onChange={e=>updatePro('importer',e.target.value)}/></label>
+       <label><span>Supplier</span><input placeholder="Supplier name" value={pro.supplier} onChange={e=>updatePro('supplier',e.target.value)}/></label>
+       <label><span>Installation / plant</span><input placeholder="Production installation" value={pro.installation} onChange={e=>updatePro('installation',e.target.value)}/></label>
+       <label><span>Reporting period</span><input placeholder="e.g. 2026" value={pro.reportingPeriod} onChange={e=>updatePro('reportingPeriod',e.target.value)}/></label>
+       <label className="wide"><span>Production route</span><input placeholder="e.g. primary aluminium extrusion" value={pro.productionRoute} onChange={e=>updatePro('productionRoute',e.target.value)}/></label>
+       <label className="wide"><span>Internal notes <em>Optional</em></span><input placeholder="Reference, supplier follow-up or review note" value={pro.notes} onChange={e=>updatePro('notes',e.target.value)}/></label>
+      </div>
+      <div className="proDataSummary"><div><span>IMPORTER</span><b>{pro.importer||'Not provided'}</b></div><div><span>SUPPLIER</span><b>{pro.supplier||'Not provided'}</b></div><div><span>INSTALLATION</span><b>{pro.installation||'Not provided'}</b></div><div><span>REPORTING PERIOD</span><b>{pro.reportingPeriod||'Not provided'}</b></div><div><span>PRODUCTION ROUTE</span><b>{pro.productionRoute||'Not provided'}</b></div><div><span>INTERNAL NOTE</span><b>{pro.notes||'Not provided'}</b></div></div>
+     </div>}
      {plan==='professional'&&<div className="professionalSections">
       <div className="proLabel">PROFESSIONAL REPORT CONTENT</div>
       <div className="proGrid">
