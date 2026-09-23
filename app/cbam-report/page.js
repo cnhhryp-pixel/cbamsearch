@@ -16,7 +16,7 @@ export default function Page(){
  const updatePro=(k,v)=>setPro(x=>({...x,[k]:v}));
  const matches=useMemo(()=>searchCbam(form.cn||form.product).slice(0,5),[form.cn,form.product]);
  function saveDraft(){try{sessionStorage.setItem('cbam-professional-draft',JSON.stringify({form,pro,savedAt:Date.now()}));setSaved(true);setTimeout(()=>setSaved(false),1800);}catch{}}
- function goToCheckout(){saveDraft();window.open('https://www.paypal.com/ncp/payment/GYR9ZKGJRGSZY','_blank','noopener,noreferrer');}
+ function goToCheckout(){saveDraft();window.location.href='https://www.paypal.com/ncp/payment/GYR9ZKGJRGSZY';}
  function assess(){
    const code=normalizeCode(form.cn);
    const scope=code?getScopeMatch(code):null;
