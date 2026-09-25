@@ -11,12 +11,12 @@ export default function Page(){
  const [previewOpen,setPreviewOpen]=useState(false);
  const [saved,setSaved]=useState(false);
  const [pro,setPro]=useState({importer:'',supplier:'',installation:'',reportingPeriod:'',productionRoute:'',directEmissions:'',indirectEmissions:'',precursorEmissions:'',specificEmissions:'',emissionsMethod:'',verificationStatus:'',notes:''});
- useEffect(()=>{const q=new URLSearchParams(window.location.search);setPlan(q.get('plan')||'free');try{const raw=sessionStorage.getItem('cbam-professional-draft');if(raw){const d=JSON.parse(raw);if(d.form)setForm(d.form);if(d.pro)setPro(d.pro);}}catch{}},[]);
+ useEffect(()=>{const q=new URLSearchParams(window.location.search);setPlan(q.get('plan')||'free');try{const raw=localStorage.getItem('cbam-professional-draft')||sessionStorage.getItem('cbam-professional-draft');if(raw){const d=JSON.parse(raw);if(d.form)setForm(d.form);if(d.pro)setPro(d.pro);if(d.reportMeta)setReportMeta(d.reportMeta);}}catch{}},[]);
  const update=(k,v)=>setForm(f=>({...f,[k]:v}));
  const updatePro=(k,v)=>setPro(x=>({...x,[k]:v}));
  const matches=useMemo(()=>searchCbam(form.cn||form.product).slice(0,5),[form.cn,form.product]);
- function saveDraft(){try{sessionStorage.setItem('cbam-professional-draft',JSON.stringify({form,pro,savedAt:Date.now()}));setSaved(true);setTimeout(()=>setSaved(false),1800);}catch{}}
- function goToCheckout(){saveDraft();window.location.href='https://www.paypal.com/ncp/payment/GYR9ZKGJRGSZY';}
+ function saveDraft(){try{const draft=JSON.stringify({form,pro,reportMeta,savedAt:Date.now()});sessionStorage.setItem('cbam-professional-draft',draft);localStorage.setItem('cbam-professional-draft',draft);setSaved(true);setTimeout(()=>setSaved(false),1800);}catch{}}
+ function goToCheckout(){saveDraft();window.location.href='/checkout/';}
  function assess(){
    const code=normalizeCode(form.cn);
    const scope=code?getScopeMatch(code):null;
