@@ -10,6 +10,7 @@ const guides=[
  ['Guide for Manufacturers','Prepare factory and supplier information for downstream CBAM requests.','/guides/cbam-for-manufacturers/','SUPPLIERS'],
  ['Emissions Data Guide','Understand the role of embedded-emissions inputs and supplier information.','/guides/cbam-emissions-data/','EMISSIONS'],
  ['Importer Guide','A workflow for organizing classification and compliance information for imports.','/guides/cbam-importer-guide/','IMPORTERS'],
+ ['Importer Requirements — 2026+','A practical checklist for authorisation, product data, emissions and annual reporting in the definitive regime.','/guides/importer-requirements/','2026+ REQUIREMENTS'],
  ['Certificate Price Guide','Understand how certificate-price information fits into planning estimates.','/guides/cbam-certificate-price/','PRICING'],
  ['Transition Period Guide','Background on the earlier CBAM transition arrangements and preparation lessons.','/guides/cbam-transition-period/','BACKGROUND']
 ];
