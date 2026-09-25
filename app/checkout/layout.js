@@ -1,0 +1,1 @@
+export const metadata={title:'Checkout — CBAM Professional Report',robots:{index:false,follow:true}};export default function Layout({children}){return children;}
