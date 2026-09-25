@@ -42,7 +42,7 @@ export default function Home(){
 
   <section className="section"><div className="wrap reportCta">
    <div><div className="eyebrow lightEyebrow">PROFESSIONAL REPORTS</div><h2>Turn your research into a structured CBAM assessment.</h2><p>Save product information, origin, classification and assessment details in one workspace, with professional report options for business use.</p></div>
-   <div className="reportCtaBox"><span>Professional report</span><strong>From €49</strong><a className="btn lightBtn" href="/cbam-report/">Create an assessment</a><a href="/pricing/">See pricing</a></div>
+   <div className="reportCtaBox"><span>Professional report</span><strong>€49 / report</strong><a className="btn lightBtn" href="/cbam-report/?plan=professional">Create Professional Report</a><a href="/report-preview/">View sample report</a><a href="/pricing/">See pricing</a></div>
   </div></section>
 
   <section className="section"><div className="wrap"><div className="eyebrow">RESEARCH TOOLS</div><h2>Continue your CBAM research</h2><ToolLinks/></div></section>
