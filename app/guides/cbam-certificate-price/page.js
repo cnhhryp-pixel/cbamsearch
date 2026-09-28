@@ -6,4 +6,4 @@ export default function Page(){return <main>
 <div className="detailSection"><div className="sectionLabel">HOW TO USE THE PRICE</div><h2>Match the certificate price to the applicable period</h2><div className="countryWorkflow threeSteps"><div><span>01</span><h3>Identify the import period</h3><p>Keep the period associated with the imported goods and reporting cycle.</p></div><div><span>02</span><h3>Use the published value</h3><p>Take the price from the Commission publication rather than an estimate or future assumption.</p></div><div><span>03</span><h3>Record the source</h3><p>Store the period and source used in the calculation so the result can be reconstructed later.</p></div></div></div>
 <div className="sourceStrip"><div><b>Official source</b><p>Verify current CBAM certificate-price publications directly with the European Commission before relying on a planning estimate.</p></div><a href="https://taxation-customs.ec.europa.eu/carbon-border-adjustment-mechanism/cbam-certificate-price_en">Commission certificate prices →</a></div>
 </div></section>
-</main>
+</main>}
