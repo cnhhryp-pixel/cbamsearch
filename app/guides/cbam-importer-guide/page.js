@@ -6,4 +6,4 @@ export default function Page(){return <main>
 <div className="detailSection"><div className="sectionLabel">OPERATING MODEL</div><h2>Do not wait until declaration season to reconstruct the evidence</h2><p>Capture the source of the CN classification, supplier data, emissions input and price period when the import scenario is created. That makes later review and annual reporting easier to reproduce.</p></div>
 <div className="directoryCta"><div><div className="eyebrow">START WITH A REAL PRODUCT</div><h2>Create an importer assessment record.</h2></div><a className="btn lightBtn" href="/cbam-report/?plan=professional">Create Professional Report →</a></div>
 </div></section>
-</main>
+</main>}
