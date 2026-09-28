@@ -6,4 +6,4 @@ export default function Page(){return <main>
 <div className="detailSection"><div className="sectionLabel">SUPPLIER DATA PACKAGE</div><h2>What an EU customer may request</h2><div className="grid"><div className="card"><h3>Product data</h3><p>Product name, CN classification, quantity and origin context.</p></div><div className="card"><h3>Factory data</h3><p>Supplier, installation, production route and reporting period.</p></div><div className="card"><h3>Emissions evidence</h3><p>Applicable embedded-emissions values, source methodology and supporting documentation.</p></div></div></div>
 <div className="directoryCta"><div><div className="eyebrow">CUSTOMER REQUEST</div><h2>Build a structured report for an EU customer scenario.</h2></div><a className="btn lightBtn" href="/cbam-report/?plan=professional">Create Professional Report →</a></div>
 </div></section>
-</main>
+</main>}
