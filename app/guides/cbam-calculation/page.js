@@ -7,4 +7,4 @@ export default function Page(){return <main>
 <div className="warningBox"><b>A precise number can still be wrong</b><p>Using an incorrect CN code, supplier emissions value or certificate-price period can produce a neat calculation with the wrong basis.</p><span>Keep each input and source with the scenario.</span></div>
 <div className="directoryCta"><div><div className="eyebrow">MODEL A SCENARIO</div><h2>Run the calculation with your own inputs.</h2></div><a className="btn lightBtn" href="/cbam-calculator/">Open CBAM calculator →</a></div>
 </div></section>
-</main>
+</main>}
