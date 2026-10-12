@@ -30,7 +30,7 @@ export default function Page(){
    <div className="eyebrow">{plan==='professional'?'PROFESSIONAL REPORT':'FREE ASSESSMENT'}</div>
    <h1>CBAM Product Assessment</h1>
    <p className="lead">Check your product against our CBAM classification data and generate a clear assessment directly in your browser.</p>
-   <div className="reportTrust"><span>✓ No account required</span><span>✓ Browser-based</span><span>✓ Free watermarked print</span></div>
+   <p className="contactHint">Need help with a paid report? <a href="mailto:sales@cbamsearch.com?subject=CBAMSearch%20Report%20Support">sales@cbamsearch.com</a></p><div className="reportTrust"><span>✓ No account required</span><span>✓ Browser-based</span><span>✓ Free watermarked print</span></div>
   </div></section>
   <section className="section reportSection"><div className="wrap reportLayout">
    <div>
