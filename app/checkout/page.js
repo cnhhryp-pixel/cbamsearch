@@ -27,7 +27,7 @@ export default function Checkout(){
     </div>
     <div className="checkoutIncludes"><h3>Included</h3><ul><li>Clean PDF without free watermark</li><li>Expanded assessment interpretation</li><li>Supplier and emissions data summary</li><li>Compliance evidence checklist</li><li>Professional report layout</li></ul></div>
     <a className="btn checkoutPay" href={PAYPAL}>Continue to PayPal — €49 EUR</a>
-    <p className="checkoutFine">Payment is processed securely by PayPal. CBAMSearch does not receive or store your PayPal password or card details.</p>
+    <p className="contactHint">Questions about payment or report delivery? <a href="mailto:sales@cbamsearch.com?subject=CBAMSearch%20Payment%20Support">sales@cbamsearch.com</a></p><p className="checkoutFine">Payment is processed securely by PayPal. CBAMSearch does not receive or store your PayPal password or card details.</p>
     <div className="checkoutHelp"><b>Checkout not loading?</b><span>If PayPal shows an error, sign in to PayPal and retry, or open the checkout in another browser/private window.</span></div>
    </div>
    <aside className="checkoutAside">
